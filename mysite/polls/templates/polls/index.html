@@ -4,6 +4,9 @@ Now we might be able to get away with putting our templates directly in polls/te
 
 
 -->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
 
 {% if latest_question_list %}
