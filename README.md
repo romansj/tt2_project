@@ -13,3 +13,6 @@ Three students participate in the assignment:
 ### User Authentication
 - Users can register by entering their email address and password. The email address has to be verified. A code is sent to the address which the user must then enter on the website.
 - Users can also register using their Facebook or Google account. After registration they can use “Sign in with Google” or “Sign in with Facebook” for a one-click sign in. Existing users can link their account to their Facebook or Google account.
+
+
+Test
