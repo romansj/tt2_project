@@ -1,7 +1,8 @@
 from django.urls import path
-
+from django.contrib import admin
 from . import views
-
+from django.conf.urls import url
+from .views import signup_view, activation_sent_view, activate
 app_name = 'polls'
 
 urlpatterns = [
@@ -13,4 +14,7 @@ urlpatterns = [
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # ex: /polls/5/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
+    path('signup/', signup_view, name="signup"),
+    path('sent/', activation_sent_view, name="activation_sent"),
+    path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
 ]
