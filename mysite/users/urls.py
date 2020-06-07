@@ -8,7 +8,6 @@ app_name = 'users'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
 
-
     path('signup/', signup_view, name="signup"),
     path('sent/', activation_sent_view, name="activation_sent"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),

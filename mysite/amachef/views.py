@@ -45,7 +45,7 @@ def contact(request):
 
         if form.is_valid():
             cd = form.cleaned_data
-        # assert False
+            # assert False
 
             con = get_connection('django.core.mail.backends.console.EmailBackend')
 

@@ -1,10 +1,11 @@
-
 from django.contrib import admin
+# You’ll follow this pattern – create a model admin class, then pass it as the second argument to admin.site.register() – any time you need to change the admin options for a model.
+from recipes.models import Post
 
 # Register your models here.
 from .models import Question, Choice
-# You’ll follow this pattern – create a model admin class, then pass it as the second argument to admin.site.register() – any time you need to change the admin options for a model.
-from recipes.models import Post
+
+
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3

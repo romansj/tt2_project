@@ -1,7 +1,7 @@
 from django.urls import path
 
-from . import views
-from. views import PostListView, PostDetailView, PostCreateView
+from .views import PostListView, PostDetailView, PostCreateView
+
 app_name = 'recipes'
 
 urlpatterns = [
