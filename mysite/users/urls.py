@@ -3,7 +3,7 @@ from django.contrib import admin
 from . import views
 from django.conf.urls import url
 from .views import signup_view, activation_sent_view, activate
-app_name = 'polls'
+app_name = 'users'
 
 urlpatterns = [
     # ex: /polls/

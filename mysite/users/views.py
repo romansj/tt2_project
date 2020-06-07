@@ -32,7 +32,7 @@ from django.core.mail import EmailMessage
 
 
 def activation_sent_view(request):
-    return render(request, 'polls/activation_sent.html')
+    return render(request, 'users/activation_sent.html')
 
 
 def activate(request, uidb64, token):
@@ -49,9 +49,9 @@ def activate(request, uidb64, token):
         user.profile.signup_confirmation = True
         user.save()
         login(request, user)
-        return redirect('polls:index')
+        return redirect('users:index')
     else:
-        return render(request, 'polls/activation_invalid.html')
+        return render(request, 'users/activation_invalid.html')
 
 
 def signup_view(request):
@@ -70,7 +70,7 @@ def signup_view(request):
             mail_subject = 'Please Activate Your Account'
             # load a template like get_template()
             # and calls its render() method immediately.
-            message = render_to_string('polls/activation_request.html', {
+            message = render_to_string('users/activation_request.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -84,14 +84,14 @@ def signup_view(request):
             email.send()
             return HttpResponse('Please confirm your email address to complete the registration')
             user.email_user(subject, message)
-            return redirect('polls:activation_sent')
+            return redirect('users:activation_sent')
     else:
         form = SignUpForm()
-    return render(request, 'polls/signup.html', {'form': form})
+    return render(request, 'users/signup.html', {'form': form})
 
 
 class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
+    template_name = 'users/index.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
@@ -105,7 +105,7 @@ class IndexView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Question
-    template_name = 'polls/detail.html'
+    template_name = 'users/detail.html'
 
     def get_queryset(self):
         """
@@ -116,7 +116,7 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     model = Question
-    template_name = 'polls/results.html'
+    template_name = 'users/results.html'
 
 
 def vote(request, question_id):
@@ -125,7 +125,7 @@ def vote(request, question_id):
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
-        return render(request, 'polls/detail.html', {
+        return render(request, 'users/detail.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
@@ -135,4 +135,4 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        return HttpResponseRedirect(reverse('users:results', args=(question.id,)))

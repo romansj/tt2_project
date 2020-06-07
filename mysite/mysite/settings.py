@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django_extensions',
     'six',
-    'polls.apps.PollsConfig',
+    'users.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,7 +128,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-LOGIN_REDIRECT_URL = "/polls/"
+LOGIN_REDIRECT_URL = "/users/"
+LOGOUT_REDIRECT_URL = "/users"
 
 
 EMAIL_HOST = 'smtp.gmail.com'
