@@ -1,17 +1,19 @@
+from django.core.mail import get_connection, send_mail
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
+# from catalog.models import Book, Author, BookInstance, Genre
+from .forms import ContactForm
 
 
 # Create your views here.
-
-
-#from catalog.models import Book, Author, BookInstance, Genre
 
 
 def index(request):
     """View function for home page of site."""
 
     # Generate counts of some of the main objects
-    #num_books = Book.objects.all().count()
+    # num_books = Book.objects.all().count()
     num_books = 5
     # num_instances = BookInstance.objects.all().count()
     num_instances = 10
@@ -33,3 +35,38 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'amachef/index.html', context=context)
+
+
+def contact(request):
+    submitted = False
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            cd = form.cleaned_data
+        # assert False
+
+        con = get_connection('django.core.mail.backends.console.EmailBackend')
+
+        send_mail(
+
+            cd['subject'],
+
+            cd['message'],
+
+            cd.get('email', 'noreply@example.com'),
+            ['siteowner@example.com'],
+
+            connection=con
+        )
+
+        return HttpResponseRedirect('/contact?submitted=True')
+    else:
+
+        form = ContactForm()
+
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request, 'amachef/contact.html', {'form': form, 'submitted': submitted})

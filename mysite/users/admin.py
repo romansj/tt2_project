@@ -10,8 +10,8 @@ class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
 
-class QuestionAdmin(admin.ModelAdmin):
 
+class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Question content', {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date']}),

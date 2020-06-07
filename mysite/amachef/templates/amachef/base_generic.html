@@ -31,7 +31,8 @@
 <body>
 <div class="grid-container">
     <ul class="menu align-center">
-        <li><a href="#">Sign in</a></li>
+        <li><a href="{% url 'users:signup' %}">Sign up</a></li>
+        <li><a href="{% url 'users:index' %}">Users index</a></li>
         <li><a href="#">Search</a></li>
     </ul>
 
@@ -39,7 +40,7 @@
     <ul class="menu align-center">
         <li><a href="{% url 'index' %}">Recipes</a></li>
         <li><a href="{% url 'index' %}">Calculators</a></li>
-        <li><a href="{% url 'polls:index' %}">Settings</a></li>
+        <li><a href="{% url 'index' %}">Settings</a></li>
         <li><a href="{% url 'contact' %}">Contact Us</a></li>
     </ul>
 
@@ -47,10 +48,9 @@
     {% block submenu %}{% endblock %}
 
 
-
-<div>
-    {% block content %}{% endblock %}
-</div>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
 
 </div>
 

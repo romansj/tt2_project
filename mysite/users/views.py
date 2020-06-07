@@ -1,34 +1,23 @@
-from django.shortcuts import render
-
 # Create your views here.
-from django.template import loader
-from .models import Question, Choice
-from django.shortcuts import render
-from django.http import Http404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.views import generic
-from django.utils import timezone
-from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
-from django.shortcuts import render, redirect
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_text
+from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from .tokens import account_activation_token
-from django.template.loader import render_to_string
-from .forms import SignUpForm
-from .tokens import account_activation_token
-from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils import timezone
+from django.utils.encoding import force_bytes
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_encode
+from django.views import generic
 
-
-
+from .forms import SignUpForm
+from .models import Question, Choice
+from .tokens import account_activation_token
 
 
 def activation_sent_view(request):

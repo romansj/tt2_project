@@ -1,8 +1,10 @@
-from django.test import TestCase
 import datetime
-from django.utils import timezone
-from .models import Question
+
+from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
+
+from .models import Question
 
 
 class QuestionModelTests(TestCase):
@@ -63,7 +65,7 @@ class QuestionIndexViewTests(TestCase):
         create_question(question_text="Past question.", days=-30)
         response = self.client.get(reverse('users:index'))
         self.assertQuerysetEqual(
-            response.context['latest_question_list'],  ['<Question: Past question.>']
+            response.context['latest_question_list'], ['<Question: Past question.>']
         )
 
     def test_future_question(self):
