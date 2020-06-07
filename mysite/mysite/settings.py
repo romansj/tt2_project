@@ -17,6 +17,7 @@ from six import text_type
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -28,11 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
 
 INSTALLED_APPS = [
+    'recipes.apps.RecipesConfig',
+    'search.apps.SearchConfig',
     'amachef.apps.AmachefConfig',
-
+    'calculators.apps.CalculatorsConfig',
     'django_extensions',
     'six',
     'users.apps.PollsConfig',

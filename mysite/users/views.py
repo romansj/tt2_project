@@ -72,6 +72,7 @@ def signup_view(request):
             )
             email.send()
             return HttpResponse('Please confirm your email address to complete the registration')
+            #todo what does this do, Elvis?
             user.email_user(subject, message)
             return redirect('users:activation_sent')
     else:
