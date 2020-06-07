@@ -12,14 +12,7 @@ Now we might be able to get away with putting our templates directly in polls/te
 <button onclick="window.location.href='signup'">Sign-up here!</button>
 
 
-{% if user.is_authenticated %}
-    {% block content %}
-        <p>you are logged in </p>
-        <button onclick="window.location.href='logout'">logout</button>
-    {% endblock %}
-{% else %}
-    <button onclick="window.location.href='login'">login here!</button>
-{% endif %}
+
 {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
