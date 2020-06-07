@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{% extends "amachef/base_generic.html" %}
+
+    {% block content %}
+    {% for post in posts %}
+        <div class="post"style="border:solid">
+        <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
+        <p> {{ post.description }} </p>
+        <p> {{ post.ingredients }} </p>
+        <p> {{ post.directions }} </p>
+        <p> the amount is {{ post.amount }} </p>
+        <p> the category is {{ post.Category }} </p>
+        <p> the cooking_time is {{ post.cooking_time }} </p>
+            <p> made by {{ post.author}}</p>
+        </div>
+    {% endfor %}
+    {% endblock content %}
+</head>
+<body>
+
+</body>
+</html>
