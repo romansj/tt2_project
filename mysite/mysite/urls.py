@@ -22,4 +22,6 @@ urlpatterns = [
     path('amachef/', include('amachef.urls')),
     path('admin/', admin.site.urls),
     path('users/', include("django.contrib.auth.urls")),
+    path('recipes/', include('recipes.urls')),
+
 ]

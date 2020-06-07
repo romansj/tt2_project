@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'amachef.apps.AmachefConfig',
-
+    'recipes.apps.RecipesConfig',
     'django_extensions',
     'six',
     'users.apps.PollsConfig',
