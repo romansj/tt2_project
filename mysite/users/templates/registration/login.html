@@ -1,0 +1,12 @@
+{%block title%}
+Login here
+{%endblock%}
+
+{%block content%}
+<form method="post" class="form-group">
+    {%csrf_token%}
+    <button type="submit" class="btn btn-success">Login</button>
+    <p>Dont have an account? make one then <a href="signup">here</a></p>
+    {{form}}
+</form>
+{%endblock%}
