@@ -47,21 +47,20 @@ def contact(request):
             cd = form.cleaned_data
         # assert False
 
-        con = get_connection('django.core.mail.backends.console.EmailBackend')
+            con = get_connection('django.core.mail.backends.console.EmailBackend')
 
-        send_mail(
+            send_mail(
 
-            cd['subject'],
+                cd['subject'],
 
-            cd['message'],
+                cd['message'],
 
-            cd.get('email', 'noreply@example.com'),
-            ['siteowner@example.com'],
+                cd.get('email'), ['amachefdf@gmail.com'],
 
-            connection=con
-        )
+                connection=con
+            )
 
-        return HttpResponseRedirect('/contact?submitted=True')
+        return HttpResponseRedirect('/amachef/contact/?submitted=True')
     else:
 
         form = ContactForm()
@@ -70,3 +69,7 @@ def contact(request):
             submitted = True
 
     return render(request, 'amachef/contact.html', {'form': form, 'submitted': submitted})
+
+
+def settings(request):
+    return render(request, 'amachef/settings.html')

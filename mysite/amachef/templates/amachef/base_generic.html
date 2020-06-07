@@ -32,11 +32,15 @@
 <div class="grid-container">
     <ul class="menu align-center">
         <li><a href="{% url 'users:signup' %}">Sign up</a></li>
+        <li><a href="{% url 'recipes:fresh' %}">View the recently added recipes!</a></li>
             {% if not user.is_authenticated %}
         <li><a href="{% url 'login' %}">Login</a>
               {% endif %}
         {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a>
+        <li><a href="{% url 'logout' %}">Logout
+            <li><a href="{% url 'recipes:post-create' %}">Create a post!</a>
+
+
 
         {% endif %}
 

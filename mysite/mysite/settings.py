@@ -28,11 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
 
 INSTALLED_APPS = [
+    'recipes.apps.RecipesConfig',
+    'search.apps.SearchConfig',
     'amachef.apps.AmachefConfig',
-
+    'calculators.apps.CalculatorsConfig',
     'django_extensions',
     'six',
     'users.apps.PollsConfig',
