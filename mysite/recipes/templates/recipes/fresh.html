@@ -7,7 +7,7 @@
 {% block content %}
     {% for post in posts %}
         <div class="post" style="border:solid">
-            <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
+            <a class="post-title" href="{% url 'polls:post-detail' post.id %}">{{ post.title }} </a>
             <p> {{ post.description }} </p>
             <p> {{ post.ingredients }} </p>
             <p> {{ post.directions }} </p>
