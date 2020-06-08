@@ -1,7 +1,19 @@
 {% extends "amachef/base_generic.html" %}
 {% block title %}Calculators - AmaChef{% endblock %}
 
+
 {% block content %}
     <h1>Calculators</h1>
+    <h2> Cup to gram/milliliter converter </h2>
+    <select id="izvele">
+    <option value="flour">all purpose flour</option>
+    <option value="butter-cups">butter</option>
+    <option value="milk">milk</option>
+    </select>
+    <input type='integer' id="ievade" value="">
+    <button class="aprekinipoga" onclick="reizini()"> Calculate</button>
+    <p id="Atbilde"></p>
+
+
 
 {% endblock %}
