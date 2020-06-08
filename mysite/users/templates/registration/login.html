@@ -2,14 +2,16 @@
 
 
 {% block title %}
-    Login here
+    Login - AmaChef
 {% endblock %}
 
 {% block content %}
+    <h1>Login</h1>
     <form method="post" class="form-group">
         {% csrf_token %}
-        <button type="submit" class="btn-success">Login</button>
-        <p>Dont have an account? make one then <a href="signup">here</a></p>
+
+        <p>Don't have an account? Sign up <a href="{% url 'users:signup' %} ">here</a>.</p>
         {{ form }}
+        <button type="submit" class="btn-success">Login</button>
     </form>
 {% endblock %}

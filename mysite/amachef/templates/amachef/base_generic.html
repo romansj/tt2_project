@@ -5,11 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <!-- Add additional CSS in static file -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'amachef/styles.css' %}">
-   <!-- <script src="{% static 'calculators/calculate.js' %}"></script> -->
+    <link rel="stylesheet" href="{% static 'search/styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script src="{% static "search/main.js" %}"></script>
+    {#todo enable after merge#}
+    {#    <script src="{% static 'calculators/calculate.js' %}"></script>#}
+
+
+    {% load static %}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static '/images/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static '/images/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static '/images/favicon-16x16.png' %}">
@@ -22,8 +29,10 @@
 </head>
 <body>
 <div class="grid-container">
+
     <ul class="menu align-center">
-        <li><a href="#">Search</a></li>
+
+        <li><a href="{% url 'results' %}">Search</a></li>
     </ul>
 
 
@@ -32,12 +41,12 @@
 
         {% if not user.is_authenticated %}
             <li><a href="{% url 'users:signup' %}">Sign up</a></li>
-            <li><a href="{% url 'login' %}">Login</a>
+            <li><a href="{% url 'login' %}">Login</a></li>
         {% endif %}
         {% if user.is_authenticated %}
             <p>Welcome, {{ user.first_name }}!</p>
-            <li><a href="{% url 'logout' %}">Logout
-            <li><a href="{% url 'recipes:post-create' %}">Create a post!</a>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+
 
 
 
@@ -55,12 +64,20 @@
     </ul>
 
 
-
-    <div>
+    <div id="content_div">
         {% block content %}{% endblock %}
     </div>
 
 </div>
 
 </body>
+
+<footer>
+    <ul>
+        <li><a href="{% url 'about' %}">About Us</a></li>
+        <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+        <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
+    </ul>
+</footer>
+
 </html>

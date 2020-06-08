@@ -1,4 +1,4 @@
-from django.core.mail import get_connection, send_mail
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -47,17 +47,15 @@ def contact(request):
             cd = form.cleaned_data
             # assert False
 
-            con = get_connection('django.core.mail.backends.console.EmailBackend')
-
             send_mail(
 
                 cd['subject'],
 
                 cd['message'],
 
-                cd.get('email'), ['amachefdf@gmail.com'],
+                cd.get('email'),
 
-                connection=con
+                ['amachefDF@gmail.com']
             )
 
         return HttpResponseRedirect('/amachef/contact/?submitted=True')
@@ -73,3 +71,15 @@ def contact(request):
 
 def settings(request):
     return render(request, 'amachef/settings.html')
+
+
+def terms(request):
+    return render(request, 'amachef/tandc.html')
+
+
+def privacy(request):
+    return render(request, 'amachef/privacy.html')
+
+
+def about(request):
+    return render(request, 'amachef/about.html')
