@@ -19,7 +19,7 @@ class PostDetailView(generic.DetailView):
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
     model = Post
-    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'Category', 'cooking_time']
+    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
