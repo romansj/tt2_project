@@ -16,6 +16,14 @@
             <p> the cooking_time is {{ post.cooking_time }} </p>
             <p> made by {{ post.author }}</p>
         </div>
+    {% if user.is_authenticated and not post.author == user %}
+    <a href="{% url 'recipes:post-create' %}">Copy recipe</a>
+    {% endif %}
+    <br>
+    {% if post.author == user %}
+    <a href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
+    <a href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
+    {% endif %}
     {% endblock %}
 </head>
 <body>
