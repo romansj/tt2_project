@@ -1,11 +1,12 @@
 import json
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse, JsonResponse
-from django.views import generic
-from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.mail import send_mail
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views import generic
+
 from search.forms import RatingForm
 from .models import Post, Category, Rating
 
@@ -27,7 +28,6 @@ def report(request):
     if request.method == 'POST':
         send_mail('Report', a, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
     return render(request, 'recipes/report.html')
-
 
 
 class PostDetailView(generic.DetailView):
@@ -138,6 +138,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
             return True
         return False
 
+
 class CategoryListView(generic.ListView):
     # todo pagaidam 2
     paginate_by = 2
@@ -156,38 +157,32 @@ class CategoryDetailView(generic.DetailView):
     #     return context
 
 
-class PostCopyView(LoginRequiredMixin, generic.CreateView):
+# class PostCopyView(LoginRequiredMixin, generic.CreateView):
+#      model = Post
+#      fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
+#      copied_post = Post.objects.get(pk=2)
+# #     copied_post.pk = None
+# #     copied_post.id = None
+# #     #def values(self, request, **kwargs):
+# #     #    copied_post = Post.objects.get(pk=self.kwargs.get('pk'))
+# #     #    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
+# #     #    initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
+# #     #                'category_new': copycat, 'cooking_time': copytime}
+# #     #    return super().values(self)
+# #
+#      copytitle = copied_post.title
+#      copydesc = copied_post.description
+# #     copyingr = copied_post.ingredients
+#      copydirec = copied_post.directions
+#      copyamount = copied_post.amount
+#      copycat = copied_post.category_new
+#      copytime = copied_post.cooking_time
+#      initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
+#                 'category_new': copycat, 'cooking_time': copytime}
+# #
+# #     def form_valid(self, form):
+# #         form.instance.author = self.request.user
+# #         return super().form_valid(form)
+
+def copy_post(request, pk):
     model = Post
-    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-    # def get_absolute_url(self):
-    #    return "/post/%i/" % self.id
-    # idintegers = get_absolute_url(Post.objects.self)
-    # mystring = "text"
-    # mystring = str(id)
-    # idintegers = int(mystring)
-    # id_paraneter = Post.objects.get()
-    # def get(self, request, **kwargs):
-    # copied_post.pk = None
-    # copied_post.id = None
-    copied_post = Post.objects.get(pk=7)
-    # def values(self, request, **kwargs):
-    #    copied_post = Post.objects.get(pk=self.kwargs.get('pk'))
-    #
-    #       fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-    #      initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
-    #                'category_new': copycat, 'cooking_time': copytime}
-    #    return super().values(self)
-
-    copytitle = copied_post.title
-    copydesc = copied_post.description
-    # copyingr = copied_post.ingredients
-    copydirec = copied_post.directions
-    copyamount = copied_post.amount
-    copycat = copied_post.category_new
-    copytime = copied_post.cooking_time
-    initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
-               'category_new': copycat, 'cooking_time': copytime}
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
