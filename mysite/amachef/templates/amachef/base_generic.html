@@ -3,17 +3,24 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Import Google Icon Font-->
+    <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.min.css?v=202006091622">
+
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'search/styles.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.css">#}
 
+
+    <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
     <script src="{% static "search/main.js" %}"></script>
-    {#todo enable after merge#}
-    {#    <script src="{% static 'calculators/calculate.js' %}"></script>#}
+    <script src="{% static 'calculators/calculate.js' %}"></script>
 
 
     {% load static %}
@@ -28,56 +35,111 @@
 
 </head>
 <body>
-<div class="grid-container">
+<section class="section " id="wrapper">
+    <div class="container">
+        <div class="navbar-center">
+            <input class="input is-rounded" type="text" placeholder="This doesn't work yet">
 
-    <ul class="menu align-center">
+        </div>
+        <br>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
 
-        <li><a href="{% url 'results' %}">Search</a></li>
-    </ul>
-
-
-    <ul class="menu align-center">
-
-
-        {% if not user.is_authenticated %}
-            <li><a href="{% url 'users:signup' %}">Sign up</a></li>
-            <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
-        {% if user.is_authenticated %}
-            <p>Welcome, {{ user.first_name }}!</p>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'recipes:fresh' %}">
+                    <img src="{% static '/images/unnamed.png' %}">
+                </a>
 
 
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{% url 'results' %}">Search</a>
+                    <a class="navbar-item" href="{% url 'recipes:fresh' %}">Recipes</a>
+                    <a class="navbar-item" href="{% url 'calculators' %}">Calculators</a>
+                    <a class="navbar-item" href="{% url 'contact' %}">Contact Us</a>
 
 
-        {% endif %}
+                </div>
 
 
-    </ul>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            {% if not user.is_authenticated %}
+                                <a class="button is-primary" href="{% url 'users:signup' %}"><strong>Sign up</strong></a>
+                                <a class="button is-light" href="{% url 'login' %}">Log in</a>
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link">Welcome, {{ user.first_name }}!</a>
+
+                                    <div class="navbar-dropdown">
+                                        <a class="navbar-item">Profile</a>
+                                        <a class="navbar-item" href="{% url 'settings' %}">Settings</a>
+                                        <a class="navbar-item" href="{% url 'logout' %}">Logout</a>
+                                        <hr class="navbar-divider">
+                                        <a class="navbar-item">Report an issue</a>
+                                    </div>
+                                </div>
+                            {% endif %}
 
 
-    <ul class="menu align-center">
-        <li><a href="{% url 'recipes:fresh' %}">Recipes</a></li>
-        <li><a href="{% url 'calculators' %}">Calculators</a></li>
-        <li><a href="{% url 'settings' %}">Settings</a></li>
-        <li><a href="{% url 'contact' %}">Contact Us</a></li>
-    </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+
+        {#        <ul class="menu align-center">#}
+        {#            <li><a href="{% url 'results' %}">Search</a></li>#}
+        {##}
+        {#            {% if not user.is_authenticated %}#}
+        {#                <li><a href="{% url 'users:signup' %}">Sign up</a></li>#}
+        {#                <li><a href="{% url 'login' %}">Login</a></li>#}
+        {#            {% endif %}#}
+        {#            {% if user.is_authenticated %}#}
+        {#                <p>Welcome, {{ user.first_name }}!</p>#}
+        {#                <li><a href="{% url 'logout' %}">Logout</a></li>#}
+        {#            {% endif %}#}
+        {#        </ul>#}
+        {##}
+        {##}
+        {#        <ul class="menu align-center">#}
+        {#            <li><a href="{% url 'recipes:fresh' %}">Recipes</a></li>#}
+        {#            <li><a href="{% url 'calculators' %}">Calculators</a></li>#}
+        {#            <li><a href="{% url 'settings' %}">Settings</a></li>#}
+        {#            <li><a href="{% url 'contact' %}">Contact Us</a></li>#}
+        {#        </ul>#}
 
 
-    <div id="content_div">
-        {% block content %}{% endblock %}
+        <div id="div_content_replace">
+            <br>
+            {% block content %}{% endblock %}
+        </div>
+
+
     </div>
-
-</div>
-
+</section>
 </body>
 
-<footer>
-    <ul>
-        <li><a href="{% url 'about' %}">About Us</a></li>
-        <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
-        <li><a href="{% url 'terms' %}">Terms and Conditions</a></li>
-    </ul>
+<footer class="footer">
+    <div class="content has-text-centered">
+
+        <a href="{% url 'about' %}">About Us</a><br>
+        <a href="{% url 'privacy' %}">Privacy Policy</a><br>
+        <a href="{% url 'terms' %}">Terms and Conditions</a><br>
+
+    </div>
+
 </footer>
 
 </html>

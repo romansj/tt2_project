@@ -1,12 +1,18 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 
-from .models import Post
+from search.forms import RatingForm
+from .models import Post, Category, Rating
 
 
 # Create your views here.
 
 class PostListView(generic.ListView):
+    # todo pagaidam 2
+    paginate_by = 2
     model = Post
     template_name = 'recipes/fresh.html'
     context_object_name = 'posts'
@@ -15,6 +21,75 @@ class PostListView(generic.ListView):
 
 class PostDetailView(generic.DetailView):
     model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        form = RatingForm()
+        context['form'] = form
+        return context
+
+
+def post_rating(request, pk):
+    # ratingForThisRecipe = Rating.objects.filter(author__rating__recipeID=pk).distinct()
+    ratingForThisRecipe = Rating.objects.filter(author_id=request.user.id, author__rating__recipeID=pk)
+
+    if (ratingForThisRecipe):
+        response = JsonResponse({"error": "You have already rated this recipe."})
+        response.status_code = 403  # To announce that the user isn't allowed to publish
+        return response
+
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        post_stars = request.POST.get('the_stars')
+        response_data = {}
+
+        rating = Rating(stars=post_stars, comment=post_text, author=request.user, recipeID_id=pk)
+        rating.save()
+
+        response_data['postpk'] = pk
+        response_data['result'] = 'Create post successful!'
+        response_data['ratingpk'] = rating.pk
+        response_data['comment'] = rating.comment
+        response_data['author'] = rating.author.username
+        response_data['stars'] = rating.stars
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+
+
+def rating_delete(request, pk, rpk):
+    if request.method == 'GET':
+        # delete = request.GET.get('the_delete')
+        # if (delete):
+
+        rating = Rating.objects.filter(id=rpk)
+        if rating:
+            print('rating exists, deleting')
+            rating.delete()
+
+            response = JsonResponse({"success": "Rating deleted."})
+            return response
+
+    response = JsonResponse({"error": "Cannot delete recipe for some unknown reason"})
+    response.status_code = 403  # To announce that the user isn't allowed to publish
+    return response
+
+
+def rating_edit(request, pk):
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        response_data = {}
+
+        # find rating
+        # edit
+        # return HttpResponse
 
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
@@ -45,8 +120,27 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     model = Post
     success_url = '/recipes'
 
+    # important, tests if the user is author, if he can actually delete
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
             return True
         return False
+
+
+class CategoryListView(generic.ListView):
+    # todo pagaidam 2
+    paginate_by = 2
+    model = Category
+    template_name = 'recipes/categories.html'
+    context_object_name = 'categories'
+
+
+class CategoryDetailView(generic.DetailView):
+    model = Category
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(CategoryDetailView, self).get_context_data(**kwargs)
+    #     recipes = Post.objects.filter(categ)
+    #     context["recipes"] = recipes
+    #     return context

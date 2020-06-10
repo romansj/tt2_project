@@ -1,32 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    {% extends "amachef/base_generic.html" %}
 
-    {% block content %}
-        <div class="post" style="border:solid">
-            <p> {{ post.title }} </p>
-            <p> {{ post.description }} </p>
-            <p> {{ post.ingredients }} </p>
-            <p> {{ post.directions }} </p>
-            <p> the amount is {{ post.amount }} </p>
-            <p> the category is {{ post.category_new }} </p>
-            <p> the cooking_time is {{ post.cooking_time }} </p>
-            <p> made by {{ post.author }}</p>
-        </div>
+
+{% extends "amachef/base_generic.html" %}
+
+{% block content %}
+    <button class="button" onclick="location.href='{% url 'recipes:fresh' %}'">Back to recipes</button>
+    <div class="post" style="border:solid">
+        <p> {{ post.title }} </p>
+        <p> {{ post.description }} </p>
+        <p> {{ post.ingredients }} </p>
+        <p> {{ post.directions }} </p>
+        <p> the amount is {{ post.amount }} </p>
+        <p> the category is {{ post.category_new }} </p>
+        <p> the cooking_time is {{ post.cooking_time }} </p>
+        <p> made by {{ post.author }}</p>
+    </div>
+
+    {#  kapec lai autors nevaretu kopet pats savu recepti?  github fork ta ir, improve yourself      #}
     {% if user.is_authenticated and not post.author == user %}
-    <a href="{% url 'recipes:post-create' %}">Copy recipe</a>
+        <a class="button" href="{% url 'recipes:post-create' %}">Copy recipe</a>
     {% endif %}
     <br>
     {% if post.author == user %}
-    <a href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
-    <a href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
-    {% endif %}
-    {% endblock %}
-</head>
-<body>
+        <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
+        <button class="button is-warning" onclick="location.href='{% url 'recipes:post-delete' post.id %}'">Delete recipe</button>
 
-</body>
-</html>
+    {% endif %}
+
+
+    {% if user.is_authenticated and not post.author == user %}
+
+        <br>
+        <h3>Reviews</h3>
+
+        <form id="post-form" action="{% url 'recipes:rate' post.id %}" method="POST">{% csrf_token %}
+            <div class="fieldWrapper">
+                {{ form.stars }}
+                {{ form.comment }}
+            </div>
+            <input class="button" type="submit" value="Post comment">
+        </form>
+        <br>
+
+
+
+    {% endif %}
+
+    <div id="results"></div>
+
+    <ul id="talk">
+
+        {% if post.rating_set.all %}
+            {% for rating in post.rating_set.all %}
+
+
+                <div class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                            </figure>
+                        </div>
+
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    Author: <strong>{{ rating.author }}</strong>
+                                    <br>
+                                    Rating: {{ rating.stars }}
+                                    <br>
+                                    Comment: {{ rating.comment }}
+
+                                </p>
+
+
+                            </div>
+
+                            {% if rating.author.id == user.id %}
+                                <nav class="level is-mobile">
+                                    <div class="level-right">
+                                        <button class="delete level-item" id="button_delete_comment" onclick="location.href='{% url 'recipes:rating_delete' post.id rating.id %}'">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </nav>
+
+                            {% endif %}
+                        </div>
+                    </article>
+                </div>
+
+
+
+
+
+                {#todo fix this sending get and loading another page#}
+
+
+
+
+
+
+            {% endfor %}
+        {% else %}
+            <br>
+            <article class="message">
+                <div class="message-body">No ratings yet. Be the first to review!</div>
+            </article>
+        {% endif %}
+
+    </ul>
+
+
+
+
+
+{% endblock %}

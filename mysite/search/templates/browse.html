@@ -1,0 +1,17 @@
+{% extends "amachef/base_generic.html" %}
+
+
+
+
+{% block content %}
+
+    {% for category in categories %}
+
+        <div class="post" style="border:solid">
+            <a class="post-title" href="{% url 'browse-detail' category.id %}">{{ category.title }} </a>
+            <p> {{ category.description }} </p>
+        </div>
+
+    {% endfor %}
+
+{% endblock content %}

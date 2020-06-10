@@ -19,6 +19,8 @@ $(document).ready(function () {
                 // fade out the artists_div, then:
                 // artists_div.fadeTo('slow', 0).promise().then(() => {
                 // replace the HTML contents
+
+                $("#div_content_replace").html();
                 artists_div.html(response['html_from_view']);
                 // fade-in the div with new contents
                 // artists_div.fadeTo('slow', 1);
@@ -47,6 +49,122 @@ $(document).ready(function () {
         // setTimeout returns the ID of the function to be executed
         scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
     });
+
+
+// using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+    $('#post-form').on('submit', function (event) {
+        event.preventDefault();
+        console.log("form submitted!");  // sanity check
+        create_post();
+    });
+
+
+    function create_post() {
+        console.log("create post is working!"); // sanity check
+        $.ajax({
+            url: "rate/", // the endpoint
+            type: "POST", // http method
+            data: {the_post: $('#post-text').val(), the_stars: $('#post-stars').val()}, // data sent with the post request
+
+            // handle a successful response
+            success: function (json) {
+                $('#post-text').val(''); // remove the value from the input
+                console.log(json); // log the returned json to the console
+                $("#talk").prepend(
+                    "<li style='background: darkgreen'> <p>Author: " + json.author + "</p> <p>Stars: " + json.stars + "</p> <p>Comment: " + json.comment + "</p> </li>"
+                );
+
+
+                console.log("success"); // another sanity check
+            },
+
+
+            // handle a non-successful response
+            error: function (data) {
+                //xhr, errmsg, err
+
+
+                alert(data.status + ". " + data.responseJSON.error); // the message
+
+                // $('#results').html("<div class='alert-box alert radius'>Oops! We have encountered an error: " + errmsg +
+                //     " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                // console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+
+
+    $('#button_delete_comment').click(function (event) {
+        console.log("clicked delete");
+        event.preventDefault();
+
+        var doDelete = true;
+        if (confirm('Are you sure you want to delete your comment?')) {
+            doDelete = true;
+            console.log("sure")
+        }
+
+        $.ajax({
+            url: "rating_delete/", // the endpoint
+            method: "get", // http method
+
+            data: {the_delete: doDelete}, // data sent with the post request
+
+
+            success: function (json) {
+                // $('#post-text').val(''); // remove the value from the input
+                // console.log(json); // log the returned json to the console
+                // $("#talk").prepend(
+                //     "<li style='background: darkgreen'> <p>Author: " + json.author + "</p> <p>Stars: " + json.stars + "</p> <p>Comment: " + json.comment + "</p> </li>"
+                // );
+
+                // console.log("success"); // another sanity check
+
+                //location.reload();
+            },
+
+
+            error: function (data) {
+                alert(data.status + ". " + data.responseJSON.error);
+            }
+        });
+        return false;
+    });
+
+
+
 
 
 });

@@ -1,16 +1,16 @@
 {% extends "amachef/base_generic.html" %}
 {% block title %}Delete post - AmaChef{% endblock %}
 {% block content %}
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <h2>Are you sure you want to delete the recipe "{{ post.title }}"?</h2>
-    <input type="submit" value="Yes">
-    <a href="{% url 'recipes:post-detail' post.id %}">Nope</a>
-</form>
-{#    {% if user.is_authenticated %}#}
-{#        <p>You are authenticated! :)</p>#}
-{#        { % else %}#}
-{#        <p>You are not authenticated! :(</p>#}
-{#    {% endif %}#}
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <h2>Are you sure you want to delete the recipe "{{ post.title }}"?</h2>
+        <input type="submit" value="Yes">
+        <a href="{% url 'recipes:post-detail' post.id %}">Nope</a>
+    </form>
+    {#    {% if user.is_authenticated %}#}
+    {#        <p>You are authenticated! :)</p>#}
+    {#        { % else %}#}
+    {#        <p>You are not authenticated! :(</p>#}
+    {#    {% endif %}#}
 
 {% endblock %}

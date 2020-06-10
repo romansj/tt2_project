@@ -6,7 +6,7 @@
 {% block title %}Search results - AmaChef{% endblock %}
 
 {% block content %}
-    <h1>Search results</h1>
+    <h1 class="title">Search results</h1>
 
 
     <style>
@@ -25,7 +25,6 @@
 
         #myInput {
             box-sizing: border-box;
-            background-image: url('searchicon.png');
             background-position: 14px 12px;
             background-repeat: no-repeat;
             font-size: 16px;
@@ -85,15 +84,13 @@
             <button onclick="myFunction()" class="dropbtn">Dropdown</button>
             <div id="myDropdown" class="dropdown-content">
                 <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                <a href="#about">About</a>
-                <a href="#base">Base</a>
-                <a href="#blog">Blog</a>
-                <a href="#contact">Contact</a>
-                <a href="#custom">Custom</a>
-                <a href="#support">Support</a>
-                <a href="#tools">Tools</a>
+
+                {% for category in categories %}
+                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a>
+                {% endfor %}
             </div>
         </div>
+
 
         <script>
             /* When the user clicks on the button,
@@ -122,8 +119,14 @@
 
         {# artist-list section #}
         <div id="replaceable-content" class="col-6">
-            {% include 'artists-results-partial.html' %}
+            {% for post in recipes %}
+                {% include 'recipes/render_posts.html' %}
+            {% endfor %}
         </div>
 
     </div>
+
+
+
+
 {% endblock %}

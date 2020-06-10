@@ -1,20 +1,44 @@
-@keyframes blinker {
-    from {
-        opacity: 1.0;
-    }
-    to {
-        opacity: 0.0;
-    }
-}
-
-.blink {
-    text-decoration: blink;
-    animation-name: blinker;
-    animation-duration: 0.6s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    animation-direction: alternate;
+.card:hover, .box:hover {
+    cursor: pointer;
+    background: aliceblue;
 }
 
 
+.card, .box {
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
 
+
+/*@media (prefers-color-scheme: dark) {*/
+/*    html {*/
+/*        background: #1d1d1d;*/
+/*    }*/
+
+/*    p, h1, h2, h3, h4, h5, h6, li, span, label {*/
+/*        color: #f4f4f4;*/
+/*    }*/
+
+
+/*    a {*/
+/*        color: lightskyblue;*/
+/*    }*/
+/*}*/
+
+
+footer {
+
+    bottom: 0;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#wrapper {
+    flex: 1;
+}

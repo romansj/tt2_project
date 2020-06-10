@@ -14,6 +14,9 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('recipes:category-detail', kwargs={'pk': self.pk})
+
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=100)
@@ -43,6 +46,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def getRatings(self):
+        return Rating.objects.filter(rating__author=self).distinct()
+
 
 class AmountType(models.Model):
     title = models.CharField(max_length=10)
@@ -58,3 +64,10 @@ class IngredientAndAmount(models.Model):
 
     def __str__(self):
         return self.author and self.amount
+
+
+class Rating(models.Model):
+    stars = models.IntegerField()
+    comment = models.TextField(max_length=1500)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    recipeID = models.ForeignKey(Post, on_delete=models.CASCADE)  # dzesot lietotaju, dzesas vina atsauksmes.

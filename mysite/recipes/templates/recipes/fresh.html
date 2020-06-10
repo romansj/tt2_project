@@ -4,24 +4,62 @@
 
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <a href="{% url 'recipes:post-create' %}">Post a recipe!</a>
-        <br><br>
-    {% endif %}
-<h3>Fresh recipes</h3>
-    {% for post in posts %}
-        <div class="post" style="border:solid">
-            <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
-            <p> {{ post.description }} </p>
-            <!--<p> {{ post.ingredients }} </p>
-            <p> {{ post.directions }} </p>-->
-            <p> the amount is {{ post.amount }} </p>
-            <p> the category is {{ post.category_new }} </p>
-            <p> the cooking_time is {{ post.cooking_time }} </p>
-            <p> made by {{ post.author }}</p>
+    <section>
+        <div class="container">
+            {% if user.is_authenticated %}
+                <button class="button is-primary" onclick="location.href='{% url 'recipes:post-create' %}'">Post a recipe!
+                </button>
+                <br><br>
+            {% endif %}
+
+            <h3 class="title">Fresh recipes</h3>
+
+
+            <div class="columns is-multiline is-mobile">
+                {% for post in posts %}
+                    <div class="column">
+
+                        <div class="card" onclick="location.href='{% url 'recipes:post-detail' post.id %}'">
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="https://bulma.io/images/placeholders/1280x960.png" width="320" height="240" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-48x48">
+                                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title is-4">{{ post.title }}</p>
+                                        <p class="subtitle is-6">{{ post.category_new.title }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="content">
+                                    <p>{{ post.cooking_time }}</p>
+
+                                    <p>{{ post.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <br>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            {% include 'recipes/pagination.html' %}
+
         </div>
-<br>
-    {% endfor %}
+    </section>
+
+
 {% endblock content %}
 
 

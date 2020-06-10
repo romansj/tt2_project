@@ -1,0 +1,19 @@
+{% extends "amachef/base_generic.html" %}
+
+
+
+
+{% block content %}
+
+    {% for category in categories %}
+        <div class="box" onclick="href=location.href='{% url 'recipes:category-detail' category.id %}'">
+            <p class="post-title">{{ category.title }} </p>
+            <p> {{ category.description }} </p>
+        </div>
+    {% endfor %}
+
+
+    {% include 'recipes/pagination.html' %}
+
+{% endblock content %}
+
