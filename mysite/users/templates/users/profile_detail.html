@@ -1,0 +1,28 @@
+{% extends "amachef/base_generic.html" %}
+
+
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'recipes:post-create' %}">Post a recipe!</a>
+        <p>{{ Profile.user }}</p>
+        <br><br>
+    {% endif %}
+<h3>Fresh recipes</h3>
+    {% for post in posts %}
+        {% if post.username == Profile.username %}
+        <div class="post" style="border:solid">
+            <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
+            <p> {{ post.description }} </p>
+            <!--<p> {{ post.ingredients }} </p>
+            <p> {{ post.directions }} </p>-->
+            <p> the amount is {{ post.amount }} </p>
+            <p> the category is {{ post.category_new }} </p>
+            <p> the cooking_time is {{ post.cooking_time }} </p>
+            <p> made by {{ post.author }}</p>
+        </div>
+        {% endif %}
+<br>
+    {% endfor %}
+{% endblock content %}

@@ -29,7 +29,7 @@ class Post(models.Model):
     # id automātiski tiek pievienots ar auto increments django
     title = models.CharField(max_length=100)
     description = models.TextField()
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
     directions = models.TextField()
     amount = models.IntegerField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,

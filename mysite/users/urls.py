@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import signup_view, activation_sent_view, activate
+from .views import signup_view, activation_sent_view, activate, ProfileDetailView
 
 app_name = 'users'
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('signup/', signup_view, name="signup"),
     path('sent/', activation_sent_view, name="activation_sent"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+    path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
 
     # from django tutorial
     # ex: /users/5/

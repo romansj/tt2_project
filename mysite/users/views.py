@@ -16,8 +16,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.views import generic
 
 from .forms import SignUpForm
-from .models import Question, Choice
+from .models import Question, Choice, Profile
 from .tokens import account_activation_token
+from recipes.models import Post
 
 
 def activation_sent_view(request):
@@ -91,6 +92,9 @@ class IndexView(generic.ListView):
         """
         # Question.objects.filter(pub_date__lte=timezone.now()) returns a queryset containing Questions whose pub_date is less than or equal to - that is, earlier than or equal to - timezone.now.
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+
+class ProfileDetailView(generic.DetailView):
+    model = Profile
 
 
 class DetailView(generic.DetailView):
