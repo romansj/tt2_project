@@ -18,12 +18,14 @@
     {#  kapec lai autors nevaretu kopet pats savu recepti?  github fork ta ir, improve yourself      #}
     {% if user.is_authenticated and not post.author == user %}
         <a href="{% url 'recipes:post-create' %}">Copy recipe</a>
-        <a href="{% url 'recipes:post-copy' post.id %}">Copy recipe</a>
+        {#        <a href="{% url 'recipes:post-copy' post.id %}">Copy recipe</a>#}
     {% endif %}
     <br>
     {% if post.author == user %}
         <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
-        <button class="button is-warning" onclick="location.href='{% url 'recipes:post-delete' post.id %}'">Delete recipe</button>
+        <button class="button is-warning" onclick="location.href='{% url 'recipes:post-delete' post.id %}'">Delete
+            recipe
+        </button>
 
     {% endif %}
 
@@ -45,6 +47,12 @@
 
 
     {% endif %}
+    <form id="report-form" action="{% url 'recipes:report' post.id %}" method="POST">{% csrf_token %}
+        <div class="fieldWrapper">
+            <input name="report" id="report_message" placeholder="Reason of report"></input>
+        </div>
+        <input class="button" type="submit" value="Post report">
+    </form>
 
     <div id="results"></div>
 

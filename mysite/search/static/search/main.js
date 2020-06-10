@@ -103,7 +103,7 @@ $(document).ready(function () {
                 $('#post-text').val(''); // remove the value from the input
                 console.log(json); // log the returned json to the console
                 $("#talk").prepend(
-                    "<li style='background: darkgreen'> <p>Author: " + json.author + "</p> <p>Stars: " + json.stars + "</p> <p>Comment: " + json.comment + "</p> </li>"
+                    "<li style='background: #006400'> <p>Author: " + json.author + "</p> <p>Stars: " + json.stars + "</p> <p>Comment: " + json.comment + "</p> </li>"
                 );
 
 

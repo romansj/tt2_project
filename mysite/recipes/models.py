@@ -46,8 +46,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def getRatings(self):
-        return Rating.objects.filter(rating__author=self).distinct()
+    # def getRatings(self):
+    #     return Rating.objects.filter(rating__author=self).distinct()
 
 
 class AmountType(models.Model):
