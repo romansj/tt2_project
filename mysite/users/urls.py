@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import signup_view, activation_sent_view, activate, ProfileDetailView
+from .views import signup_view, activation_sent_view, activate, ProfileDetailView, Contact_us
 
 app_name = 'users'
 
@@ -12,7 +12,7 @@ urlpatterns = [
     path('sent/', activation_sent_view, name="activation_sent"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
-
+    path('contact_us/', Contact_us, name='contact-us'),
     # from django tutorial
     # ex: /users/5/
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),

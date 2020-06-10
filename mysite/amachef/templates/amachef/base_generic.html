@@ -21,7 +21,7 @@
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
     <script src="{% static "search/main.js" %}"></script>
     <script src="{% static "search/report.js" %}"></script>
-
+    <script src="{% static "search/contact_us.js" %}"></script>
     {% load static %}
     <script src="{% static 'calculators/calculate.js' %}"></script>
 
@@ -66,7 +66,7 @@
                     <a class="navbar-item" href="{% url 'results' %}">Search</a>
                     <a class="navbar-item" href="{% url 'recipes:fresh' %}">Recipes</a>
                     <a class="navbar-item" href="{% url 'calculators' %}">Calculators</a>
-                    <a class="navbar-item" href="{% url 'contact' %}">Contact Us</a>
+                    <a class="navbar-item" href="{% url 'users:contact-us' %}">Contact Us</a>
 
 
                 </div>
@@ -76,7 +76,8 @@
                     <div class="navbar-item">
                         <div class="buttons">
                             {% if not user.is_authenticated %}
-                                <a class="button is-primary" href="{% url 'users:signup' %}"><strong>Sign up</strong></a>
+                                <a class="button is-primary" href="{% url 'users:signup' %}"><strong>Sign
+                                    up</strong></a>
                                 <a class="button is-light" href="{% url 'login' %}">Log in</a>
                             {% endif %}
 

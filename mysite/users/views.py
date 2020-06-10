@@ -1,8 +1,13 @@
 # Create your views here.
+import json
+
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -18,7 +23,6 @@ from django.views import generic
 from .forms import SignUpForm
 from .models import Question, Choice, Profile
 from .tokens import account_activation_token
-from recipes.models import Post
 
 
 def activation_sent_view(request):
@@ -92,6 +96,21 @@ class IndexView(generic.ListView):
         """
         # Question.objects.filter(pub_date__lte=timezone.now()) returns a queryset containing Questions whose pub_date is less than or equal to - that is, earlier than or equal to - timezone.now.
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+
+
+def Contact_us(request):
+    response_data = {}
+    if request.method == 'POST':
+        report_text = request.POST.get('the_message')
+        response_data['text'] = report_text
+        send_mail('Report', report_text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return render(request, 'users/Conatact_us.html')
+
 
 class ProfileDetailView(generic.DetailView):
     model = Profile
