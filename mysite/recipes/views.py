@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import generic
-
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import Post
+from django.shortcuts import render
 
 
 # Create your views here.
@@ -13,8 +15,19 @@ class PostListView(generic.ListView):
     ordering = ['-date_posted']
 
 
+def report(request):
+    template_name = 'recipes/report.html'
+    a = "zinojums"
+    if request.method == 'POST':
+        send_mail('Report', a, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+    return render(request, 'recipes/report.html')
+
+
+
 class PostDetailView(generic.DetailView):
     model = Post
+
+
 
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):

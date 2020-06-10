@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <form method="post" action="{% url 'recipes:report' %}">
+    {% csrf_token %}
+    <textarea name="message" placeholder="Reason of report"></textarea>
+    <input type="submit"/>
+</form>
+</head>
+<body>
+
+</body>
+</html>
