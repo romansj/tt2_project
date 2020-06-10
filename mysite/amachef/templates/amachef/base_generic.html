@@ -20,8 +20,9 @@
 
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
     <script src="{% static "search/main.js" %}"></script>
-    {#todo enable after merge#}
-        <script src="{% static 'calculators/calculate.js' %}"></script>
+
+    {% load static %}
+    <script src="{% static 'calculators/calculate.js' %}"></script>
 
 
     {% load static %}
