@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django import forms
 
 
 # Create your models here.
@@ -26,7 +27,7 @@ class Post(models.Model):
     # id automātiski tiek pievienots ar auto increments django
     title = models.CharField(max_length=100)
     description = models.TextField()
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, blank=True, null=True)
     directions = models.TextField()
     amount = models.IntegerField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
