@@ -21,7 +21,7 @@
         {% if user.is_superuser %}
             <p>logots: you a supah</p>
 
-            {% if not recepte.author.is_moderator %}
+            {% if not recepte.author.profile.is_moderator %}
                 <p>rec aut :mod NYET!</p>
                 <a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>
             {% else %}

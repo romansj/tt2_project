@@ -22,8 +22,8 @@ from django.views import generic
 from django.views.decorators.cache import never_cache
 
 from recipes.models import Post
-from .forms import SignUpForm, UserEditForm
-from .models import Question, Choice, User_report,Profile
+from .forms import SignUpForm
+from .models import Question, Choice, User_report, Profile
 from .tokens import account_activation_token
 
 
@@ -200,15 +200,28 @@ def vote(request, question_id):
 
 def user_promotion(request, pkkk):
     new_mod = get_object_or_404(Profile, id=pkkk)
-    form = UserEditForm(request.POST or None)
-    if form.is_valid():
-        new_mod.is_moderator = True
-        new_mod.save()
-    context = {
-        "is_moderator": new_mod.is_moderator
-    }
-    # new_mod = get_object_or_404(Profile, pk=pkkk)
+    new_mod.is_moderator = True
+    new_mod.save()
     return redirect('users:profile-view', pk=pkkk)
+
+    # def hide_post(request, peekay):
+    #     print("esmu iekshaa def hide_post")
+    #     hide_item = get_object_or_404(Post, pk=peekay)
+    #     hide_item.is_hidden = True
+    #     hide_item.save()
+    #     # new_item.title = "Copy of " + new_item.title
+    #     # form = NewPostForm(request.POST or None, instance=new_item)
+    #     # if form.is_valid():
+    #     #     form.save()
+    #     #     return redirect('recipes:post-detail', pk=new_item.id)
+    #     #     # context = {
+    #     #     #     "form": form,
+    #     #     # }
+    #     #     # return render(request, "recipes/post_form.html", context)
+    #     # context = {
+    #     #     "form": form,
+    #     # }
+    #     return redirect('recipes:post-detail', pk=hide_item.pk)
 
     # new_mod.is_moderator = True
     # new_mod.save()

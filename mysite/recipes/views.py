@@ -296,9 +296,50 @@ def copy_post(request, pkk):
     }
     return render(request, "recipes/post_form.html", context)
 
+
+def hide_post(request, peekay):
+    print("esmu iekshaa def hide_post")
+    hide_item = get_object_or_404(Post, pk=peekay)
+    hide_item.is_hidden = True
+    hide_item.save()
+    # new_item.title = "Copy of " + new_item.title
+    # form = NewPostForm(request.POST or None, instance=new_item)
+    # if form.is_valid():
+    #     form.save()
+    #     return redirect('recipes:post-detail', pk=new_item.id)
+    #     # context = {
+    #     #     "form": form,
+    #     # }
+    #     # return render(request, "recipes/post_form.html", context)
+    # context = {
+    #     "form": form,
+    # }
+    return redirect('recipes:post-detail', pk=hide_item.pk)
+
+
 # @moderator_required
 # def hide_recipe():
 
 
 class IngredientDetailView(generic.DetailView):
     model = Ingredient
+
+
+def unhide_post(request, peekay):
+    print("esmu iekshaa def hide_post")
+    hide_item = get_object_or_404(Post, pk=peekay)
+    hide_item.is_hidden = False
+    hide_item.save()
+    # new_item.title = "Copy of " + new_item.title
+    # form = NewPostForm(request.POST or None, instance=new_item)
+    # if form.is_valid():
+    #     form.save()
+    #     return redirect('recipes:post-detail', pk=new_item.id)
+    #     # context = {
+    #     #     "form": form,
+    #     # }
+    #     # return render(request, "recipes/post_form.html", context)
+    # context = {
+    #     "form": form,
+    # }
+    return redirect('recipes:post-detail', pk=hide_item.pk)
