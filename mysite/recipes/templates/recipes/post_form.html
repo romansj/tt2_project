@@ -1,7 +1,7 @@
 {% extends "amachef/base_generic.html" %}
 {% block title %}Post - AmaChef{% endblock %}
 {% block content %}
-    <form method="post">{% csrf_token %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
         <input class="button is-primary" type="submit" value="Post">
     </form>
