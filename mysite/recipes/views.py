@@ -9,7 +9,7 @@ from django.views import generic
 
 from search.forms import RatingForm
 from .forms import NewPostForm
-from .models import Post, Category, Rating, Recipe_report, Ingredient
+from .models import Post, Category, Rating, Recipe_report
 
 
 # Create your views here.
@@ -51,7 +51,8 @@ def report(request, pk):
         response_data['postpk'] = pk
         print(request.user.username)
         # šī daļa ir tur kur strādā liekot datu
-        reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk), reported_text=report_text)
+        reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk),
+                                  reported_text=report_text)
         reporting.save()
         text = request.user.username + report_text + str(pk)
         send_mail('Report', text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
@@ -296,9 +297,32 @@ def copy_post(request, pkk):
     }
     return render(request, "recipes/post_form.html", context)
 
+
 # @moderator_required
 # def hide_recipe():
 
+def Add_ingredient(request, pk):
+    if request.method == 'POST':
+        post_text = request.POST.get('the_ingredient_name')
+        post_stars = request.POST.get('the_ingredient_amount')
+        response_data = {}
 
-class IngredientDetailView(generic.DetailView):
-    model = Ingredient
+        rating = Rating(stars=post_stars, comment=post_text, author=request.user, recipeID_id=pk)
+        rating.save()
+
+        response_data['postpk'] = pk
+        response_data['result'] = 'Create post successful!'
+        response_data['ratingpk'] = rating.pk
+        response_data['comment'] = rating.comment
+        response_data['author'] = rating.author.username
+        response_data['stars'] = rating.stars
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

@@ -155,7 +155,7 @@ $(document).ready(function () {
         $.ajax({
             url: "rate/", // the endpoint
             type: "POST", // http method
-            data: {the_post: $('#post-text').val(), the_stars: $('#post-stars').val()}, // data sent with the post request
+            data: {the_post: $('#ingredient-name').val(), the_stars: $('#post-stars').val()}, // data sent with the post request
 
             // handle a successful response
             success: function (json) {

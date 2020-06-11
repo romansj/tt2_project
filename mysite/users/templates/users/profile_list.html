@@ -3,17 +3,17 @@
 
 
 {% block content %}
-{#    TODO this#}
-{#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
-{#        <div class="fieldWrapper">#}
-{#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
-{#        </div>#}
-{#        <input class="button" type="submit" value="Post report">#}
-{#    </form>#}
+    {#    TODO this#}
+    {#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
+    {#        <div class="fieldWrapper">#}
+    {#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
+    {#        </div>#}
+    {#        <input class="button" type="submit" value="Post report">#}
+    {#    </form>#}
     {% with posts|first as recepte %}
         <h3>aut {{ recepte.author.username }}</h3>
         <h3>logots {{ user.username }}</h3>
-
+        {#        {{ post.author.profile_picture.profile_picture }}#}
 
         {% if recepte.author.is_moderator %}
             <p>MOD IS AUTHOR DA!</p>

@@ -23,7 +23,7 @@ from django.views.decorators.cache import never_cache
 
 from recipes.models import Post
 from .forms import SignUpForm, UserEditForm
-from .models import Question, Choice, User_report,Profile
+from .models import Question, Choice, User_report, Profile
 from .tokens import account_activation_token
 
 
@@ -79,6 +79,7 @@ def signup_view(request):
             user.profile.first_name = form.cleaned_data.get('first_name')
             user.profile.last_name = form.cleaned_data.get('last_name')
             user.profile.email = form.cleaned_data.get('email')
+            # user.profile.picture=form.cleaned_data.get('profile_picture')
             # user can't login until link confirmed
             user.is_active = False
             user.save()
