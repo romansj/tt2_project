@@ -18,7 +18,7 @@
         {% endif %}
 
 
-        <p>{{ post.description }}</p>
+        <p>{{ post.description|safe }}</p>
 
         <p class="subtitle is-5">Ingredients:</p>{% for ingredient in  post.ingredients.all %}
         <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
