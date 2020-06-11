@@ -12,7 +12,7 @@
 
 
     {% for post in category.post_set.all %}
-        {% include 'recipes/render_posts.html' %}
+        {% include 'recipes/render_recipe_short.html' %}
     {% endfor %}
 
 {% endblock %}

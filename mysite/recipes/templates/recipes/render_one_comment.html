@@ -1,0 +1,36 @@
+<div class="box">
+    <article class="media">
+        <div class="media-left">
+            <figure class="image is-64x64">
+                <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+            </figure>
+        </div>
+
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    Author: <strong>{{ rating.author }}</strong>
+                    <br>
+                    Rating: {{ rating.stars }}
+                    <br>
+                    Comment: {{ rating.comment }}
+
+                </p>
+
+
+            </div>
+
+            {% if rating.author.id == user.id %}
+                <nav class="level is-mobile">
+                    <div class="level-right">
+                        {#todo fix this sending get and loading another page#}
+                        <button class="delete level-item" id="button_delete_comment" onclick="location.href='{% url 'recipes:rating_delete' post.id rating.id %}'">
+                            Delete
+                        </button>
+                    </div>
+                </nav>
+
+            {% endif %}
+        </div>
+    </article>
+</div>

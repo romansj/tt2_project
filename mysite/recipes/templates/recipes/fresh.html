@@ -19,32 +19,9 @@
                 {% for post in posts %}
                     <div class="column">
 
-                        <div class="card" onclick="location.href='{% url 'recipes:post-detail' post.id %}'">
-                            <div class="card-image">
-                                <figure class="image is-4by3">
-                                    <img src="https://bulma.io/images/placeholders/1280x960.png" width="320" height="240" alt="Placeholder image">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-4">{{ post.title }}</p>
-                                        <p class="subtitle is-6">{{ post.category_new.title }}</p>
-                                    </div>
-                                </div>
+                        {% include 'recipes/render_recipe_short_img.html' %}
 
-                                <div class="content">
-                                    <p>{{ post.cooking_time }}</p>
 
-                                    <p>{{ post.author }}</p>
-                                </div>
-                            </div>
-                        </div>
 
 
                         <br>

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 from django.utils import timezone
 
@@ -37,6 +38,12 @@ class Post(models.Model):
     category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
     date_posted = models.DateTimeField(default=timezone.now)
+
+    @property
+    def average_rating(self):
+        return self.rating_set.all().aggregate(Avg('stars')).get('stars__avg')
+        # Change 0.00 to whatever default value you want when there
+        # are no reviews.
 
     # is_hidden = models.BooleanField(default=False)
     # hidden_by = models.CharField(max_length=100)

@@ -1,0 +1,29 @@
+<div class="box click_box" data-category-id="{{ post.category_new.id }}" onclick="location.href='{% url 'recipes:post-detail' post.id %}'">
+
+
+    <p class="title is-4">{{ post.title }}</p>
+    {% if post.category_new %}
+        <a class="subtitle un" href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new }}</a>
+    {% else %}
+        <span class="subtitle">Category not specified</span>
+    {% endif %}
+
+
+    <p>Average rating:
+        {% if post.average_rating %} {{ post.average_rating }} {% else %} No ratings yet. {% endif %}
+    </p>
+
+
+    <p>{{ post.cooking_time }}</p>
+
+    <p>{{ post.author }}</p>
+
+
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+
+
+{% extends "amachef/base_generic.html" %}
+
+{% block content %}
+    <button class="button" onclick="location.href='{% url 'recipes:fresh' %}'">Back to recipes</button>
+
+    <div class="card">
+        <p>{{ ingredient.title }}</p>
+    </div>
+
+{% endblock %}

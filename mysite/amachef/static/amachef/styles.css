@@ -5,13 +5,13 @@
 }
 
 
-.card:hover, .box:hover {
+.click_card:hover, .click_box:hover {
     cursor: pointer;
     background: aliceblue;
 }
 
 
-.card, .box {
+.click_card, .click_box {
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
@@ -28,3 +28,6 @@ body {
     min-height: 100vh;
     flex-direction: column;
 }
+
+
+.burger:h

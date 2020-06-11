@@ -24,6 +24,22 @@
     flex: 1;
 }
 
+.un {
+    display: inline-block;
+}
+
+.un:after {
+    content: '';
+    width: 0px;
+    height: 1px;
+    display: block;
+    background: black;
+    transition: 300ms;
+}
+
+.un:hover:after {
+    width: 100%;
+}
 
 .dropbtn {
     background-color: #4CAF50;
@@ -58,6 +74,7 @@
 }
 
 .dropdown-content {
+    margin-top: 50px;
     display: none;
     position: absolute;
     background-color: #f6f6f6;

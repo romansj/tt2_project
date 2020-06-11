@@ -12,75 +12,68 @@
 
 
 
+    <div class="">
+
+        <input id="user-input" placeholder="Search">
+    </div>
 
 
-    <div class="row">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="button is-primary">Filter by category</button>
 
-        {# icon and search-box #}
-        <div class="col-6 align-left">
-            <i id="search-icon" class="fas fa-search"></i>
-            <input id="user-input" placeholder="Search">
-        </div>
+        <div id="myDropdown" class="dropdown-content">
+            <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 
-
-        <div class="dropdown">
-            <button onclick="myFunction()" class="button is-primary">Filter by category</button>
-            <div id="myDropdown" class="dropdown-content">
-                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-
-                {#            pirmais atver kategoriju#}
-                {#            otrais pievieno kategoriju pie selection#}
-                {% for category in categories %}
-                    {#                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a> #}
-                    <a class="a_category" data-category-id="{{ category.id }}">{{ category.title }}</a>
-                {% endfor %}
-            </div>
-        </div>
-        <br>
-        <br>
-
-
-        <script>
-            /* When the user clicks on the button,
-            toggle between hiding and showing the dropdown content */
-            function myFunction() {
-                document.getElementById("myDropdown").classList.toggle("show");
-            }
-
-            function filterFunction() {
-                var input, filter, ul, li, a, i;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                div = document.getElementById("myDropdown");
-                a = div.getElementsByTagName("a");
-                for (i = 0; i < a.length; i++) {
-                    txtValue = a[i].textContent || a[i].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        a[i].style.display = "";
-                    } else {
-                        a[i].style.display = "none";
-                    }
-                }
-            }
-        </script>
-
-
-        <div id="search_selected_categories">
-
-        </div>
-
-        <div id="search_selected_ingredients">
-
-        </div>
-
-
-        <div id="replaceable-content" class="col-6">
-            {% for post in recipes %}
-                {% include 'recipes/render_posts.html' %}
+            {#            pirmais atver kategoriju#}
+            {#            otrais pievieno kategoriju pie selection#}
+            {% for category in categories %}
+                {#                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a> #}
+                <a class="a_category" data-category-id="{{ category.id }}">{{ category.title }}</a>
             {% endfor %}
         </div>
-
     </div>
+
+    <br>
+    <br>
+
+
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
+    <div id="search_selected_categories"></div>
+
+    <div id="search_selected_ingredients"></div>
+
+
+    <div id="replaceable-content">
+        {% for post in recipes %}
+            {% include 'recipes/render_recipe_short.html' %}
+        {% endfor %}
+    </div>
+
+
 
 
 

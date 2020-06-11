@@ -9,7 +9,7 @@ from django.views import generic
 
 from search.forms import RatingForm
 from .forms import NewPostForm
-from .models import Post, Category, Rating, Recipe_report
+from .models import Post, Category, Rating, Recipe_report, Ingredient
 
 
 # Create your views here.
@@ -297,3 +297,7 @@ def copy_post(request, pkk):
 
 # @moderator_required
 # def hide_recipe():
+
+
+class IngredientDetailView(generic.DetailView):
+    model = Ingredient

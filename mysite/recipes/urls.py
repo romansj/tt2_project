@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, CategoryListView, \
-    CategoryDetailView
+    CategoryDetailView, IngredientDetailView
 
 app_name = 'recipes'
 
@@ -24,4 +24,5 @@ urlpatterns = [
     path('post/<int:pk>/rate/', views.post_rating, name='rate'),
     path('post/<int:pk>/rate/<int:rpk>/rating_delete/', views.rating_delete, name='rating_delete'),
     path('post/<int:pk>/rate/<int:rpk>/edit/', views.rating_edit, name='rating_edit'),
+    path('ingredients/<int:pk>/', IngredientDetailView.as_view(), name='ingredient_detail'),
 ]
