@@ -10,23 +10,22 @@
         {#        <br>#}
 
 
-        <h3 class="title">{{ post.title  | safe }}</h3>
+        <h3 class="title">{{ post.title }}</h3>
         {% if post.category_new %}
-            <a class="subtitle un"
-               href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new }}</a>
+            <a class="subtitle un" href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new }}</a>
         {% else %}
             <p class="subtitle">Category not specified</p>
         {% endif %}
 
 
-        <p>{{ post.description | safe }}</p>
-        {{ post.media }}
+        <p>{{ post.description }}</p>
+
         <p class="subtitle is-5">Ingredients:</p>{% for ingredient in  post.ingredients.all %}
         <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
     {% endfor %}
 
         <h3 class="subtitle">Directions:</h3>
-        <p> {{ post.directions  | safe }} </p>
+        <p> {{ post.directions|safe }} </p>
         <p> the amount is {{ post.amount }} </p>
 
         <br>
