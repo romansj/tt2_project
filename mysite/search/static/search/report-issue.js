@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#contact-us-from').on('submit', function (event) {
+    $('#report-issue-from').on('submit', function (event) {
         event.preventDefault();
         console.log("aaaaa");  // sanity check
         send_information();
@@ -10,11 +10,11 @@ $(document).ready(function () {
         $.ajax({
             url: "", // the endpoint
             type: "POST", // http method
-            data: {the_message: $('#contact-us-message').val()}, // data sent with the post request
+            data: {the_message: $('#reporting-message').val()}, // data sent with the post request
 
             // handle a successful response
             success: function (json) {
-                $('#contact-us-text').val(''); // remove the value from the input
+                $('#reporting-message').val(''); // remove the value from the input
                 console.log(json); // log the returned json to the console
 
 

@@ -1,9 +1,9 @@
 {% extends "amachef/base_generic.html" %}
 {% block content %}
     <p>Hello</p>
-    <form id="contact-us-from" action="{% url 'users:contact-us' %}" method="POST">{% csrf_token %}
+    <form id="report-issue-from" action="{% url 'users:report-issue' %}" method="POST">{% csrf_token %}
         <div class="fieldWrapper">
-            <input name="contacts" id="contact-us-message" placeholder="what you want to tell us"></input>
+            <input name="contacts" id="reporting-message" placeholder="what you want to tell us"></input>
         </div>
         <input class="button" type="submit" value="Post-contact">
     </form>

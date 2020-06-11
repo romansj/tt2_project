@@ -14,14 +14,18 @@
     <!-- Add additional CSS in static file -->
     {% load static %}
     <link rel="stylesheet" href="{% static 'search/styles.css' %}">
+    {% load static %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.css">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.css">
 
 
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+    {% load static %}
     <script src="{% static "search/main.js" %}"></script>
+    {% load static %}
     <script src="{% static "search/report.js" %}"></script>
-    <script src="{% static "search/contact_us.js" %}"></script>
+    {% load static %}
+    <script src="{% static "search/report-issue.js" %}"></script>
     {% load static %}
     <script src="{% static 'calculators/calculate.js' %}"></script>
 
@@ -53,7 +57,8 @@
                 </a>
 
 
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                   data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -66,7 +71,7 @@
                     <a class="navbar-item" href="{% url 'results' %}">Search</a>
                     <a class="navbar-item" href="{% url 'recipes:fresh' %}">Recipes</a>
                     <a class="navbar-item" href="{% url 'calculators' %}">Calculators</a>
-                    <a class="navbar-item" href="{% url 'users:contact-us' %}">Contact Us</a>
+                    <a class="navbar-item" href="{% url 'contact' %}">Contact Us</a>
 
 
                 </div>
@@ -83,14 +88,14 @@
 
                             {% if user.is_authenticated %}
                                 <div class="navbar-item has-dropdown is-hoverable">
-                                    <a class="navbar-link">Welcome, {{ user.first_name }}!</a>
+                                    <a class="navbar-link">Welcome, {{ user.username }}!</a>
 
                                     <div class="navbar-dropdown">
-                                        <a class="navbar-item">Profile</a>
+                                        <a class="navbar-item" href="{% url 'users:profile-view' user.id %}">Profile</a>
                                         <a class="navbar-item" href="{% url 'settings' %}">Settings</a>
                                         <a class="navbar-item" href="{% url 'logout' %}">Logout</a>
                                         <hr class="navbar-divider">
-                                        <a class="navbar-item">Report an issue</a>
+                                        <a class="navbar-item" href="{% url 'users:report-issue' %}">Report an issue</a>
                                     </div>
                                 </div>
                             {% endif %}

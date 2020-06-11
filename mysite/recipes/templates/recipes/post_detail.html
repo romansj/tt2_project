@@ -12,7 +12,7 @@
         <p> the amount is {{ post.amount }} </p>
         <p> the category is {{ post.category_new }} </p>
         <p> the cooking_time is {{ post.cooking_time }} </p>
-        <p> made by {{ post.author }}</p>
+        <a href='{% url 'users:profile-view' post.author.id %}'>made by {{ post.author }}</a>
     </div>
 
     {#  kapec lai autors nevaretu kopet pats savu recepti?  github fork ta ir, improve yourself      #}

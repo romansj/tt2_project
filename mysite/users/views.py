@@ -20,8 +20,9 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.http import urlsafe_base64_encode
 from django.views import generic
 
+from recipes.models import Post
 from .forms import SignUpForm
-from .models import Question, Choice, Profile
+from .models import Question, Choice
 from .tokens import account_activation_token
 
 
@@ -98,7 +99,7 @@ class IndexView(generic.ListView):
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
-def Contact_us(request):
+def report_issue(request):
     response_data = {}
     if request.method == 'POST':
         report_text = request.POST.get('the_message')
@@ -109,11 +110,24 @@ def Contact_us(request):
             content_type="application/json"
         )
     else:
-        return render(request, 'users/Conatact_us.html')
+        return render(request, 'users/report-issue.html')
 
 
-class ProfileDetailView(generic.DetailView):
-    model = Profile
+class ProfileView(generic.ListView):
+    template_name = 'users/profile_list.html'
+    model = Post
+    context_object_name = 'posts'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data(**kwargs)
+    #     context['author'] = User.objects.get(self.kwargs['pk'])
+    #     return context
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        print(self.kwargs['pk'])
+        return Post.objects.filter(author_id=self.kwargs['pk'])
 
 
 class DetailView(generic.DetailView):

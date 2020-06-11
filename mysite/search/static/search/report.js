@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    console.log('titaniks grimst, titaniks ir musu atzime tt')
     $('#report-form').on('submit', function (event) {
         event.preventDefault();
         console.log("Report");  // sanity check
