@@ -2,56 +2,7 @@ $(document).ready(function () {
     console.log("ready!");
 
 
-    const user_input = $("#user-input");
-    const search_icon = $('#search-icon');
-    const artists_div = $('#replaceable-content');
-
-    const endpoint = '/search/results/';
-    const delay_by_in_ms = 700;
-    let scheduled_function = false;
-
-    let ajax_call = function (endpoint, request_parameters) {
-
-        console.log(request_parameters);
-
-        $.getJSON(endpoint, request_parameters)
-            .done(response => {
-                // fade out the artists_div, then:
-                // artists_div.fadeTo('slow', 0).promise().then(() => {
-                // replace the HTML contents
-
-                $("#div_content_replace").html();
-                artists_div.html(response['html_from_view']);
-                // fade-in the div with new contents
-                // artists_div.fadeTo('slow', 1);
-                // stop animating search icon
-                // search_icon.removeClass('blink');
-                // });
-            });
-    };
-
-
-    user_input.on('keyup', function () {
-        console.log("keyup");
-
-        const request_parameters = {
-            q: $(this).val() // value of user_input: the HTML element with ID user-input
-        };
-
-        // start animating the search icon with the CSS class
-        // search_icon.addClass('blink');
-
-        // if scheduled_function is NOT false, cancel the execution of the function
-        if (scheduled_function) {
-            clearTimeout(scheduled_function)
-        }
-
-        // setTimeout returns the ID of the function to be executed
-        scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
-    });
-
-
-// using jQuery
+    //setup
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -82,6 +33,114 @@ $(document).ready(function () {
             }
         }
     });
+    //end setup
+
+
+    const user_input = $("#user-input");
+    const search_icon = $('#search-icon');
+    const artists_div = $('#replaceable-content');
+
+    const endpoint = '/search/results/';
+    const delay_by_in_ms = 700;
+    let scheduled_function = false;
+
+    let ajax_call = function (endpoint, request_parameters) {
+
+        console.log(request_parameters);
+
+        $.getJSON(endpoint, request_parameters)
+            .done(response => {
+                // fade out the artists_div, then:
+                // artists_div.fadeTo('slow', 0).promise().then(() => {
+                // replace the HTML contents
+
+                $("#div_content_replace").html();
+                artists_div.html(response['html_from_view']);
+                // fade-in the div with new contents
+                // artists_div.fadeTo('slow', 1);
+                // stop animating search icon
+                // search_icon.removeClass('blink');
+                // });
+            });
+    };
+
+    var selectedCategory;
+    var enteredWord;
+    var clickedCategoryID;
+    user_input.on('keyup', function () {
+        console.log("keyup");
+        enteredWord = $(this).val();
+        request_parameters = {
+            q: enteredWord // value of user_input: the HTML element with ID user-input
+        };
+
+
+        if (clickedCategoryID) {
+            request_parameters = {
+                q: enteredWord, cat: clickedCategoryID
+            };
+        }
+
+
+        if (scheduled_function) { // if scheduled_function is NOT false, cancel the execution of the function
+            clearTimeout(scheduled_function)
+        }
+
+        // setTimeout returns the ID of the function to be executed
+        scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
+    });
+
+
+    const categorySelectionDiv = $("#search_selected_categories");
+
+    $('a.a_category').click(function () {
+        if (selectedCategory) {
+            selectedCategory.classList.remove("selected_category");
+
+        }
+
+        selectedCategory = this;
+        categorySelectionDiv.html("<p>" + $(this).text() + "</p>");
+        selectedCategory.classList.add("selected_category");
+
+
+        clickedCategoryID = this.dataset.categoryId;
+        console.log(this.dataset.categoryId);//sanity check
+
+        request_parameters = {
+            cat: clickedCategoryID
+        };
+
+        if (enteredWord) {
+            request_parameters = {
+                q: enteredWord, cat: clickedCategoryID
+            };
+        }
+
+        const endpoint = '/search/results/';
+
+
+        let ajax_call = function (endpoint, request_parameters) {
+
+            console.log(request_parameters);
+
+            $.getJSON(endpoint, request_parameters)
+                .done(response => {
+
+
+                    $("#div_content_replace").html();
+                    artists_div.html(response['html_from_view']);
+
+                });
+        };
+
+
+        ajax_call(endpoint, request_parameters);
+
+    });
+
+
+// using jQuery
 
 
     $('#post-form').on('submit', function (event) {
@@ -162,9 +221,6 @@ $(document).ready(function () {
         });
         return false;
     });
-
-
-
 
 
 });

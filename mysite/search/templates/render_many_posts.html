@@ -1,0 +1,9 @@
+{% if recipes %}   {% for post in recipes %}
+    {% include 'recipes/render_posts.html' %}
+{% endfor %}
+
+    {% include 'recipes/pagination.html' %}
+
+{% else %}
+    <div class="box">No recipes found.</div>
+{% endif %}
