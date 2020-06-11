@@ -15,21 +15,22 @@
         <p> made by {{ post.author }}</p>
     </div>
 
-    {#  kapec lai autors nevaretu kopet pats savu recepti?  github fork ta ir, improve yourself      #}
-    {% if user.is_authenticated and not post.author == user %}
-        <a href="{% url 'recipes:post-create' %}">Copy recipe</a>
-        <a href="{% url 'recipes:post-copy' post.id %}">Copy recipe</a>
-    {% endif %}
+
     <br>
     {% if post.author == user %}
         <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
-        <button class="button is-warning" onclick="location.href='{% url 'recipes:post-delete' post.id %}'">Delete recipe</button>
+        <button class="button is-warning" onclick="location.href='{% url 'recipes:post-delete' post.id %}'">Delete
+            recipe
+        </button>
 
     {% endif %}
-
-
+    {% if user.is_authenticated and user.is_moderator %}
+        <p>u are authenticated and a moderator</p>
+    {% endif %}
     {% if user.is_authenticated and not post.author == user %}
-
+        <a id="button_copy" href="{% url 'recipes:post-copy' post.id %}" data-identifikators="{{ post.id }}">Copy
+            recipe</a>
+        {#<!-- href="{% url 'recipes:post-copy' post.id %}"-->#}
         <br>
         <h3>Reviews</h3>
 

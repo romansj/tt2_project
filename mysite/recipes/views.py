@@ -1,12 +1,14 @@
 import json
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse, JsonResponse
-from django.views import generic
-from django.core.mail import send_mail
 from django.conf import settings
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.mail import send_mail
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views import generic
+
 from search.forms import RatingForm
+from .forms import NewPostForm
 from .models import Post, Category, Rating
 
 
@@ -27,7 +29,6 @@ def report(request):
     if request.method == 'POST':
         send_mail('Report', a, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
     return render(request, 'recipes/report.html')
-
 
 
 class PostDetailView(generic.DetailView):
@@ -104,10 +105,46 @@ def rating_edit(request, pk):
 
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
+    print("printeejas")
     model = Post
     fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
 
+    def get_initial(self):
+        print("esam get_initial")
+        post_text = self.request.POST.get('recid')
+        post = Post.objects.get(id=int(post_text))
+        return {'title': post.title, 'description': post.description, 'directions': post.description,
+                'amount': post.amount,
+                'category_new': post.category_new, 'cooking_time': post.cooking_time}
+
+    # def __init__(self, *args, **kwargs):
+    #     print("ieeju def init ar baigaam sviitraam")
+    #     post_text = self.request.POST.get('recid')
+    #     post = Post.objects.get(id=int(post_text))
+    #     super(PostCreateView, self).__init__(*args, **kwargs)
+    #     self.
+    #     self.fields['title'].initial = post.title
+    #     self.fields['description'].initial = post.description
+    #     self.fields['directions'].initial = post.directions
+    #     self.fields['amount'].initial = post.amount
+    #     self.fields['category_new'].initial = post.category_new
+    #     self.fields['cooking_time'].initial = post.cooking_time
+
     def form_valid(self, form):
+        print("shis arii printeejas")
+        if self.request.method == 'POST':
+            post_text = self.request.POST.get('recid')
+            response_data = {}
+            post = Post.objects.get(id=int(post_text))
+            form['title'] = post.title
+            form['description'] = post.description
+            form['directions'] = post.directions
+            form['amount'] = post.amount
+            form['category_new'] = post.category_new
+            form['cooking_time'] = post.cooking_time
+        else:
+            print("nav post bet gan ir ", self.request.method)
+
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -138,6 +175,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
             return True
         return False
 
+
 class CategoryListView(generic.ListView):
     # todo pagaidam 2
     paginate_by = 2
@@ -156,38 +194,86 @@ class CategoryDetailView(generic.DetailView):
     #     return context
 
 
-class PostCopyView(LoginRequiredMixin, generic.CreateView):
-    model = Post
-    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-    # def get_absolute_url(self):
-    #    return "/post/%i/" % self.id
-    # idintegers = get_absolute_url(Post.objects.self)
-    # mystring = "text"
-    # mystring = str(id)
-    # idintegers = int(mystring)
-    # id_paraneter = Post.objects.get()
-    # def get(self, request, **kwargs):
-    # copied_post.pk = None
-    # copied_post.id = None
-    copied_post = Post.objects.get(pk=7)
-    # def values(self, request, **kwargs):
-    #    copied_post = Post.objects.get(pk=self.kwargs.get('pk'))
-    #
-    #       fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-    #      initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
-    #                'category_new': copycat, 'cooking_time': copytime}
-    #    return super().values(self)
+# class PostCopyView(LoginRequiredMixin, generic.CreateView):
+#     model = Post
+#     fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
+#     copied_post = Post.objects.get(pk=2)
+#     copied_post.pk = None
+#     copied_post.id = None
+#     initiala = {}
+#
+#     def values(self, request, **kwargs):
+#         copied_post = Post.objects.get(pk=self.kwargs.get('pk'))
+#         copytitle = copied_post.title
+#         copydesc = copied_post.description
+#         copyingr = copied_post.ingredients
+#         copydirec = copied_post.directions
+#         copyamount = copied_post.amount
+#         copycat = copied_post.category_new
+#         copytime = copied_post.cooking_time
+#         fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
+#         initiala = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
+#                    'category_new': copycat, 'cooking_time': copytime}
+#         return initiala
+#
+#
+#     copytitle = copied_post.title
+#     copydesc = copied_post.description
+#     copyingr = copied_post.ingredients
+#     copydirec = copied_post.directions
+#     copyamount = copied_post.amount
+#     copycat = copied_post.category_new
+#     copytime = copied_post.cooking_time
+#     initial = initiala
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
 
-    copytitle = copied_post.title
-    copydesc = copied_post.description
-    # copyingr = copied_post.ingredients
-    copydirec = copied_post.directions
-    copyamount = copied_post.amount
-    copycat = copied_post.category_new
-    copytime = copied_post.cooking_time
-    initial = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
-               'category_new': copycat, 'cooking_time': copytime}
+class PostCopyView(LoginRequiredMixin, generic.CreateView):
+    print("esam iekshaa postcopyview")
+    model = Post
+    form_class = NewPostForm
+    success_url = '/post/%(id)s'
+
+    def init_values(self, form):
+        print("esam iekshaa init_values")
+        post_text = self.request.POST.get('recid')
+        post = Post.objects.get(id=int(post_text))
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.title = post.title
+        obj.description = post.description
+        obj.ingredients = post.ingredients
+        obj.directions = post.directions
+        obj.amount = post.amount
+        obj.category_new = post.category_new
+        obj.cooking_time = post.cooking_time
+        obj.save()
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+def copy_post(request, pkk):
+    print("esmu iekshaa def copy_post")
+    new_item = get_object_or_404(Post, pk=pkk)
+    new_item.pk = None
+    new_item.author = request.user
+    new_item.title = "Copy of " + new_item.title
+    form = NewPostForm(request.POST or None, instance=new_item)
+    if form.is_valid():
+        form.save()
+        return redirect('recipes:post-detail', pk=new_item.id)
+        # context = {
+        #     "form": form,
+        # }
+        # return render(request, "recipes/post_form.html", context)
+    context = {
+        "form": form,
+    }
+    return render(request, "recipes/post_form.html", context)
+
+# @moderator_required
+# def hide_recipe():
