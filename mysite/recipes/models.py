@@ -40,6 +40,9 @@ class Post(models.Model):
     cooking_time = models.DurationField()
     date_posted = models.DateTimeField(default=timezone.now)
 
+    # is_hidden = models.BooleanField(default=False)
+    # hidden_by = models.CharField(max_length=100)
+
     def get_absolute_url(self):
         return reverse('recipes:post-detail', kwargs={'pk': self.pk})
 

@@ -8,12 +8,20 @@ from django.utils import timezone
 
 
 class Profile(models.Model):
+    # USER_TYPE_CHOICES = (
+    #     (1, 'user'),
+    #     (2, 'moderator'),
+    #     (3, 'admin'),
+    # )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     email = models.EmailField(max_length=150)
     signup_confirmation = models.BooleanField(default=False)
-    #image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+    is_moderator = models.BooleanField(default=False)
+
+    # user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    # image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
