@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
@@ -31,12 +32,13 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     ingredients = models.ManyToManyField(Ingredient, blank=True)
-    directions = models.TextField()
+    directions = RichTextUploadingField()
     amount = models.IntegerField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # lietotajs tiek dzests, bet post paliek "by (deleted)"
     # Category = models.CharField(max_length=100)  # vai arī te liekam izvēli? #vajadzēs vēl vienu field
     category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
+    thumbnail = models.ImageField(upload_to='profile_pics', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     is_hidden = models.BooleanField(default=False, null=True)
 

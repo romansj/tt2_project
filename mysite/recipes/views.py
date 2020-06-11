@@ -127,7 +127,8 @@ def rating_edit(request, pk):
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
     # print("printeejas")
     model = Post
-    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
+    fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time',
+              'thumbnail']
 
     # def get_initial(self):
     #     print("esam get_initial")

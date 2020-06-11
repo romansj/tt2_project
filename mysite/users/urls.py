@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile-view'),
     path('profile/<int:pkkk>/promote/', views.user_promotion, name='user_promotion'),
     path('report-issue/', report_issue, name='report-issue'),
+    path('profile/<int:pk>/report/', views.report_profile, name='report_profile'),
     # from django tutorial
     # ex: /users/5/
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
