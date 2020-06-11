@@ -10,8 +10,8 @@
         <div class="post" style="border:solid">
             <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
             <p> {{ post.description }} </p>
-            <!--<p> {{ post.ingredients }} </p>
-            <p> {{ post.directions }} </p>-->
+            <p> {{ post.ingredients }} </p>
+            <p> {{ post.directions |safe }} </p>
             <p> the amount is {{ post.amount }} </p>
             <p> the category is {{ post.category_new }} </p>
             <p> the cooking_time is {{ post.cooking_time }} </p>

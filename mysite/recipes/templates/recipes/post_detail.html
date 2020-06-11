@@ -6,9 +6,9 @@
     <button class="button" onclick="location.href='{% url 'recipes:fresh' %}'">Back to recipes</button>
     <div class="post" style="border:solid">
         <p> {{ post.title }} </p>
-        <p> {{ post.description }} </p>
+        <p> {{ post.description |safe }} </p>
         <p> {{ post.ingredients }} </p>
-        <p> {{ post.directions }} </p>
+        <p> {{ post.directions |safe }} </p>
         <p> the amount is {{ post.amount }} </p>
         <p> the category is {{ post.category_new }} </p>
         <p> the cooking_time is {{ post.cooking_time }} </p>

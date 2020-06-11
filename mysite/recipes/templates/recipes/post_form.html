@@ -2,7 +2,8 @@
 {% block title %}Post - AmaChef{% endblock %}
 {% block content %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_p |safe }}
+        {{ form.media }}
         <input class="button is-primary" type="submit" value="Post">
     </form>
     {#    {% if user.is_authenticated %}#}

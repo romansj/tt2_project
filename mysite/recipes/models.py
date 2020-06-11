@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -30,7 +31,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     ingredients = models.ManyToManyField(Ingredient, blank=True)
-    directions = models.TextField()
+    directions = RichTextUploadingField()
     amount = models.IntegerField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
                                blank=True)  # lietotajs tiek dzests, bet post paliek "by (deleted)"
