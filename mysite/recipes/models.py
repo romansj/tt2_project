@@ -38,6 +38,7 @@ class Post(models.Model):
     category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
     date_posted = models.DateTimeField(default=timezone.now)
+    is_hidden = models.BooleanField(default=False, null=True)
 
     @property
     def average_rating(self):
