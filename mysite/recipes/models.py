@@ -21,10 +21,12 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    title = models.CharField(max_length=100)
+    Ingredient_RecipeID = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)
+    Ingredient_name = models.CharField(max_length=100)
+    Ingredient_amount = models.CharField(max_length=100, null=True)
 
-    def __str__(self):
-        return self.title
+    def str(self):
+        return self.Ingredient_name
 
 
 class Post(models.Model):
