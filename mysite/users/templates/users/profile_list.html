@@ -1,8 +1,13 @@
 {% extends "amachef/base_generic.html" %}
 
 
-
 {% block content %}
+    <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}
+        <div class="fieldWrapper">
+            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>
+        </div>
+        <input class="button" type="submit" value="Post report">
+    </form>
     {% with posts|first as lietotajvards %}
         <h3> {{ lietotajvards.author.username }}</h3>
     {% endwith %}

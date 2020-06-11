@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#report-form').on('submit', function (event) {
+    $('#report-profile-form').on('submit', function (event) {
         event.preventDefault();
         console.log("Report");  // sanity check
         send_report();

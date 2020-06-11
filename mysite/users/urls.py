@@ -13,6 +13,7 @@ urlpatterns = [
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile-view'),
     path('report-issue/', report_issue, name='report-issue'),
+    path('profile/<int:pk>/report/', views.report_profile, name='report_profile'),
     # from django tutorial
     # ex: /users/5/
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),

@@ -22,12 +22,32 @@ from django.views import generic
 
 from recipes.models import Post
 from .forms import SignUpForm
-from .models import Question, Choice
+from .models import Question, Choice, User_report
 from .tokens import account_activation_token
 
 
 def activation_sent_view(request):
     return render(request, 'users/activation_sent.html')
+
+
+def report_profile(request, pk):
+    response_data = {}
+    model = User_report
+    if request.method == 'POST':
+        report_text = request.POST.get('the_report')
+        response_data['author'] = request.user.username
+        response_data['text'] = report_text
+        response_data['postpk'] = pk
+        print(request.user.username)
+        # šī daļa ir tur kur strādā liekot datu
+        reporting = User_report(reported_user=request.user, reported_text=report_text)
+        reporting.save()
+        text = request.user.username + report_text + str(pk)
+        send_mail('Report', text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
 
 
 def activate(request, uidb64, token):
