@@ -53,6 +53,24 @@ def recipe_results(request):
     return render(request, "results.html", context=ctxt)
 
 
+def load_search_page(request):
+    recipes = Post.objects.none()
+    ctxt = {"recipes": recipes}
+
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="results.html",
+            context={"recipes": recipes}
+        )
+
+        data_dict = {"html_from_view": html}
+        # print(html)
+
+        return JsonResponse(data=data_dict, safe=False)
+
+    return render(request, "results.html", context=ctxt)
+
+
 def browse(request):
     recipes = Post.objects.all()
     categories = Category.objects.all()

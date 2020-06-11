@@ -296,9 +296,54 @@ def copy_post(request, pkk):
     }
     return render(request, "recipes/post_form.html", context)
 
+
 # @moderator_required
 # def hide_recipe():
 
 
 class IngredientDetailView(generic.DetailView):
     model = Ingredient
+
+# todo data_insertion
+# def insert_data(request):
+#     category = Category( "Breakfast and brunch","For all your breakfast and brunch needs")
+#
+#     words = ["Fluffy and Delicious Pancakes",
+#              "Puff Pastry Waffles",
+#              "Mom's Zucchini Bread",
+#              "Fluffy French Toast",
+#              "Strawberry Waffles",
+#              "French Toast",
+#              "Sausage Balls"]
+#     descriptions = [
+#         "My husband makes the most fabulous pancakes I've ever eaten! Well worth the hour wait! We serve them with butter and brown sugar.",
+#         "Add puff pastry to the list of good things you can snackify in your waffle iron. Although they don't puff up as much as oven-baked puff pastry, they turn out crispy on the outside and tender on the inside, and they take only minutes to make. Serve hot or at room temperature with syrup, fruit, Nutella®, fruit preserves, or nut butter.",
+#         "Really, really good and moist- my kids eat it as quickly as I can make it. Bread will freeze well, and keep in refrigerator for weeks.",
+#         "This French toast recipe is different because it uses flour. I have given it to some friends and they've all liked it better than the French toast they usually make!",
+#         "A rather quick and easy waffle recipe, with the added goodness of fresh strawberries. Serve warm, topped with warm maple syrup, or the fruit syrup of your choice.",
+#         "There are many, fancy variations on this basic recipe. This recipe works with many types of bread - white, whole wheat, cinnamon-raisin, Italian or French. Serve hot with butter or margarine and maple syrup.",
+#         "These are so yummy! My family makes every Christmas morning. Enjoy!"
+#     ]
+#     directions = [
+#         "Step 1:\nIn a large bowl, sift together flour, salt, baking powder and sugar. In a small bowl, beat together egg and milk. Stir milk and egg into flour mixture. Mix in the butter and fold in the blueberries. Set aside for 1 hour. \n\n Step 2: \n Heat a lightly oiled griddle or frying pan over medium high heat. Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake. Brown on both sides and serve hot.",
+#         "Step 1:\nLine a cutting board with parchment paper. Unfold puff pastry onto cutting board. Cut each sheet into 4 equal squares.\n\nStep 2\nPreheat a waffle iron according to manufacturer's instructions. Grease with cooking spray.\n\nStep 3\nPlace one puff pastry square in the preheated waffle iron; cook until golden brown, 3 to 5 minutes. Repeat with remaining puff pastry squares.",
+#         "Step 1:\nGrease and flour two 8 x 4 inch pans. Preheat oven to 325 degrees F (165 degrees C).\n\nStep 2\nSift flour, salt, baking powder, soda, and cinnamon together in a bowl.\n\nStep 3\nBeat eggs, oil, vanilla, and sugar together in a large bowl. Add sifted ingredients to the creamed mixture, and beat well. Stir in zucchini and nuts until well combined. Pour batter into prepared pans.\n\nStep 4\nBake for 40 to 60 minutes, or until tester inserted in the center comes out clean. Cool in pan on rack for 20 minutes. Remove bread from pan, and completely cool.",
+#         "Step 1\nMeasure flour into a large mixing bowl. Slowly whisk in the milk. Whisk in the salt, eggs, cinnamon, vanilla extract and sugar until smooth.\n\nStep 2\nHeat a lightly oiled griddle or frying pan over medium heat.\n\nStep 3\nSoak bread slices in mixture until saturated. Cook bread on each side until golden brown. Serve hot.",
+#         "Step 1\nPreheat and grease a waffle iron according to manufacturer's instructions.\n\nStep 2\nSift flour, baking powder, and salt together in a bowl. Whisk buttermilk, yogurt, butter, eggs, and sugar together in a separate bowl; stir into flour mixture until batter is smooth. Fold strawberries into batter.\n\nStep 3\nPour about 1/3 cup batter into preheated waffle iron; cook until lightly browned, 5 to 7 minutes. Repeat with remaining batter.",
+#         "Step 1\nBeat together egg, milk, salt, desired spices and vanilla.\n\nStep 2\nHeat a lightly oiled griddle or skillet over medium-high heat.\n\nStep 3\nDunk each slice of bread in egg mixture, soaking both sides. Place in pan, and cook on both sides until golden. Serve hot.",
+#         "Step 1\nPreheat oven to 350 degrees F (175 degrees C).\n\nStep 2\nIn a large bowl, combine sausage, biscuit baking mix and cheese. Form into walnut size balls and place on baking sheets.\n\nStep 3\nBake in preheated oven for 20 to 25 minutes, until golden brown and sausage is cooked through.",
+#     ]
+#
+#     ingredients = [
+#         "¾ cup milk\n2 tablespoons white vinegar\n1 cup all-purpose flour\n2 tablespoons white sugar\n1 teaspoon baking powder\n½ teaspoon baking soda\n½ teaspoon salt\n1 egg\n2 tablespoons butter, melted\n1 ½ teaspoons ground cinnamon, or as desired\n1 teaspoon vanilla extract\n1 serving cooking spray\n",
+#         "1 (17.3 ounce) package frozen puff pastry, thawed\n1 serving cooking spray",
+#         "3 cups all-purpose flour\n1 teaspoon salt\n1 teaspoon baking soda\n1 teaspoon baking powder\n1 tablespoon ground cinnamon\n3 eggs\n1 cup vegetable oil\n2 ¼ cups white sugar\n3 teaspoons vanilla extract\n2 cups grated zucchini\n1 cup chopped walnuts\n",
+#         "¼ cup all-purpose flour\n1 cup milk\n1 pinch salt\n3 eggs\n½ teaspoon ground cinnamon\n1 teaspoon vanilla extract\n1 tablespoon white sugar\n12 thick slices bread\n",
+#    "2 ½ cups all-purpose flour\n4 teaspoons baking powder\n¾ teaspoon salt\n2 cups buttermilk\n½ cup vanilla Greek-style yogurt\n½ cup butter, melted\n2 eggs, beaten\n1 ½ tablespoons white sugar\n¾ cup chopped strawberries, or more to taste\n",
+#     "6 thick slices bread\n2 eggs\n⅔ cup milk\n¼ teaspoon ground cinnamon\n¼ teaspoon ground nutmeg\n1 teaspoon vanilla extract\nsalt to taste\n",
+#     "1 pound ground pork sausage\n2 cups biscuit baking mix\n1 pound sharp Cheddar cheese, shredded\n",]
+#
+#     count = 0
+#     for word in words:
+#         post = Post(word, descriptions[count], ingredients[count],directions[count],1,request.user,category,'02:30:00','',timezone.now, False)
+#         count+=1

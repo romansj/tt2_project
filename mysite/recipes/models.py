@@ -38,7 +38,7 @@ class Post(models.Model):
     # Category = models.CharField(max_length=100)  # vai arī te liekam izvēli? #vajadzēs vēl vienu field
     category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
-    thumbnail = models.ImageField(upload_to='profile_pics', blank=True)
+    thumbnail = models.ImageField(upload_to='profile_pics', blank=True, null=True)
     date_posted = models.DateTimeField(default=timezone.now)
     is_hidden = models.BooleanField(default=False, null=True)
 
