@@ -1,8 +1,13 @@
 # Create your views here.
+import json
+
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -15,8 +20,9 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.http import urlsafe_base64_encode
 from django.views import generic
 
+from recipes.models import Post
 from .forms import SignUpForm
-from .models import Question, Choice, Profile
+from .models import Question, Choice
 from .tokens import account_activation_token
 
 
@@ -95,6 +101,37 @@ class IndexView(generic.ListView):
 
 class ProfileDetailView(generic.DetailView):
     model = Profile
+
+
+def report_issue(request):
+    response_data = {}
+    if request.method == 'POST':
+        report_text = request.POST.get('the_message')
+        response_data['text'] = report_text
+        send_mail('Report', report_text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return render(request, 'users/report-issue.html')
+
+
+class ProfileView(generic.ListView):
+    template_name = 'users/profile_list.html'
+    model = Post
+    context_object_name = 'posts'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data(**kwargs)
+    #     context['author'] = User.objects.get(self.kwargs['pk'])
+    #     return context
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        print(self.kwargs['pk'])
+        return Post.objects.filter(author_id=self.kwargs['pk'])
 
 
 class DetailView(generic.DetailView):

@@ -49,8 +49,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def getRatings(self):
-        return Rating.objects.filter(rating__author=self).distinct()
+    # def getRatings(self):
+    #     return Rating.objects.filter(rating__author=self).distinct()
+
+
+class Recipe_report(models.Model):
+    reported_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reported_post = models.ForeignKey(Post, on_delete=models.CASCADE, default='0')
+    reported_text = models.TextField()
+
+    def __str__(self):
+        return self.reported_user.username
 
 
 class AmountType(models.Model):

@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('categories/', CategoryListView.as_view(), name='categories'),
     path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail'),
-
+    path('post/<int:pk>/report/', views.report, name='report'),
     path('post/<int:pk>/rate/', views.post_rating, name='rate'),
     path('post/<int:pk>/rate/<int:rpk>/rating_delete/', views.rating_delete, name='rating_delete'),
     path('post/<int:pk>/rate/<int:rpk>/edit/', views.rating_edit, name='rating_edit'),

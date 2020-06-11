@@ -9,7 +9,7 @@ from django.views import generic
 
 from search.forms import RatingForm
 from .forms import NewPostForm
-from .models import Post, Category, Rating
+from .models import Post, Category, Rating, Recipe_report
 
 
 # Create your views here.
@@ -39,6 +39,27 @@ class PostDetailView(generic.DetailView):
         form = RatingForm()
         context['form'] = form
         return context
+
+#TODO IDIOT THERES TWO REPORTS
+def report(request, pk):
+    response_data = {}
+    model = Recipe_report
+    if request.method == 'POST':
+        report_text = request.POST.get('the_report')
+        response_data['author'] = request.user.username
+        response_data['text'] = report_text
+        response_data['postpk'] = pk
+        print(request.user.username)
+        # šī daļa ir tur kur strādā liekot datu
+        reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk),
+                                  reported_text=report_text)
+        reporting.save()
+        text = request.user.username + report_text + str(pk)
+        send_mail('Report', text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
 
 
 def post_rating(request, pk):
