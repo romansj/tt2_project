@@ -12,6 +12,7 @@ urlpatterns = [
     path('sent/', activation_sent_view, name="activation_sent"),
     path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile-view'),
+    path('profile/<int:pkkk>/promote/', views.user_promotion, name='user_promotion'),
     path('report-issue/', report_issue, name='report-issue'),
     # from django tutorial
     # ex: /users/5/

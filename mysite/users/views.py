@@ -19,9 +19,10 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.utils.http import urlsafe_base64_encode
 from django.views import generic
+from django.views.decorators.cache import never_cache
 
 from recipes.models import Post
-from .forms import SignUpForm
+from .forms import SignUpForm, UserEditForm
 from .models import Question, Choice, Profile
 from .tokens import account_activation_token
 
@@ -102,6 +103,10 @@ class IndexView(generic.ListView):
 class ProfileDetailView(generic.DetailView):
     model = Profile
 
+    @never_cache
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 def report_issue(request):
     response_data = {}
@@ -118,6 +123,10 @@ def report_issue(request):
 
 
 class ProfileView(generic.ListView):
+    @never_cache
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     template_name = 'users/profile_list.html'
     model = Post
     context_object_name = 'posts'
@@ -167,3 +176,25 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('users:results', args=(question.id,)))
+
+
+def user_promotion(request, pkkk):
+    new_mod = get_object_or_404(Profile, id=pkkk)
+    form = UserEditForm(request.POST or None)
+    if form.is_valid():
+        new_mod.is_moderator = True
+        new_mod.save()
+    context = {
+        "is_moderator": new_mod.is_moderator
+    }
+    # new_mod = get_object_or_404(Profile, pk=pkkk)
+    return redirect('users:profile-view', pk=pkkk)
+
+    # new_mod.is_moderator = True
+    # new_mod.save()
+    #
+    # new_new_mod = get_object_or_404(Profile, pk=pkkk)
+    #
+    # print('user_promotion new_new', new_new_mod.is_moderator)
+    #
+    # return redirect('users:profile-view', pk=pkkk)
