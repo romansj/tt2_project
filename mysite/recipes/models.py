@@ -21,10 +21,12 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    title = models.CharField(max_length=100)
+    Ingredient_RecipeID = models.ForeignKey('Post', on_delete=models.CASCADE, blank=True, null=True)
+    Ingredient_name = models.CharField(max_length=100)
+    Ingredient_amount = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return self.title
+        return self.RecipeID
 
 
 class Post(models.Model):
@@ -38,7 +40,7 @@ class Post(models.Model):
     # Category = models.CharField(max_length=100)  # vai arī te liekam izvēli? #vajadzēs vēl vienu field
     category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
-    thumbnail = models.ImageField(upload_to='profile_pics', blank=True)
+    thumbnail = models.ImageField(upload_to='Thumbnails', blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     is_hidden = models.BooleanField(default=False, null=True)
 
@@ -70,20 +72,6 @@ class Recipe_report(models.Model):
         return self.reported_user.username
 
 
-class AmountType(models.Model):
-    title = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.title
-
-
-class IngredientAndAmount(models.Model):
-    author = models.ForeignKey(Ingredient, on_delete=models.SET_NULL, null=True, blank=True)
-    amount = models.IntegerField()
-    amount_type = models.ForeignKey(AmountType, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return self.author and self.amount
 
 
 class Rating(models.Model):

@@ -1,6 +1,6 @@
 from django import forms
 
-from recipes.models import Rating
+from recipes.models import Rating, Ingredient
 
 CHOICES = [
     (1, 'Very poor'),
@@ -11,6 +11,24 @@ CHOICES = [
 ]
 
 
+class Add_ingredient(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['Ingredient_name', 'Ingredient_amount']
+        widgets = {
+            'ingredient_name': forms.TextInput(attrs={
+                'id': 'Ingredient_name',
+                'required': True,
+                'placeholder': 'Add ingredient'
+            }),
+            'ingredient_amount': forms.TextInput(attrs={
+                'id': 'Ingredient_amount',
+                'required': True,
+                'placeholder': 'Add amount'
+            })
+        }
+
+
 class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
@@ -18,7 +36,7 @@ class RatingForm(forms.ModelForm):
         fields = ['comment', 'stars']
         widgets = {
             'comment': forms.TextInput(attrs={
-                'id': 'post-text',
+                'id': 'ingredient-name-text',
                 'required': True,
                 'placeholder': 'Say something...'
             }),

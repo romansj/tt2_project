@@ -3,13 +3,13 @@
 
 
 {% block content %}
-    {#    TODO this#}
-    {#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
-    {#        <div class="fieldWrapper">#}
-    {#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
-    {#        </div>#}
-    {#        <input class="button" type="submit" value="Post report">#}
-    {#    </form>#}
+{#    TODO this#}
+{#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
+{#        <div class="fieldWrapper">#}
+{#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
+{#        </div>#}
+{#        <input class="button" type="submit" value="Post report">#}
+{#    </form>#}
     {% with posts|first as recepte %}
 
         {% if recepte.author.profile.is_moderator %}
