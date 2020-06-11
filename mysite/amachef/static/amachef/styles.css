@@ -5,4 +5,26 @@
 }
 
 
+.card:hover, .box:hover {
+    cursor: pointer;
+    background: aliceblue;
+}
 
+
+.card, .box {
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
+footer {
+
+    bottom: 0;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}

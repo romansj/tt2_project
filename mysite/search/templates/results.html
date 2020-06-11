@@ -9,64 +9,7 @@
     <h1 class="title">Search results</h1>
 
 
-    <style>
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
 
-        .dropbtn:hover, .dropbtn:focus {
-            background-color: #3e8e41;
-        }
-
-        #myInput {
-            box-sizing: border-box;
-            background-position: 14px 12px;
-            background-repeat: no-repeat;
-            font-size: 16px;
-            padding: 14px 20px 12px 45px;
-            border: none;
-            border-bottom: 1px solid #ddd;
-        }
-
-        #myInput:focus {
-            outline: 3px solid #ddd;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f6f6f6;
-            min-width: 230px;
-            overflow: auto;
-            border: 1px solid #ddd;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown a:hover {
-            background-color: #ddd;
-        }
-
-        .show {
-            display: block;
-        }
-    </style>
 
 
 
@@ -81,15 +24,20 @@
 
 
         <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+            <button onclick="myFunction()" class="button is-primary">Filter by category</button>
             <div id="myDropdown" class="dropdown-content">
                 <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 
+                {#            pirmais atver kategoriju#}
+                {#            otrais pievieno kategoriju pie selection#}
                 {% for category in categories %}
-                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a>
+                    {#                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a> #}
+                    <a class="a_category" data-category-id="{{ category.id }}">{{ category.title }}</a>
                 {% endfor %}
             </div>
         </div>
+        <br>
+        <br>
 
 
         <script>
@@ -117,7 +65,15 @@
         </script>
 
 
-        {# artist-list section #}
+        <div id="search_selected_categories">
+
+        </div>
+
+        <div id="search_selected_ingredients">
+
+        </div>
+
+
         <div id="replaceable-content" class="col-6">
             {% for post in recipes %}
                 {% include 'recipes/render_posts.html' %}
