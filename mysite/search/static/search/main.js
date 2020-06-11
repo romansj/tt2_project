@@ -64,6 +64,28 @@ $(document).ready(function () {
             });
     };
 
+
+    let ajax_call2 = function (endpoint, request_parameters) {
+        refs.modalEdicion.open();
+
+        var pathname = window.location.pathname;
+        console.log("path " + pathname);
+
+        //ja mes jau esam search lapa, tad html tur jau ir (kurā mes atrodam elementu un aizvietojam ar renderotiem rezultatiem no views.py)
+        //savukart ja mes vel neesam search lapa, tad html vel nav, mes ieladejam content blokos tieši
+
+        console.log(request_parameters);
+
+        $.getJSON(endpoint, request_parameters)
+            .done(response => {
+                $("#div_content_replace").html(response['html_from_view']);
+
+            });
+
+
+    };
+
+
     var selectedCategory;
     var enteredWord;
     var clickedCategoryID;
@@ -88,6 +110,17 @@ $(document).ready(function () {
 
         // setTimeout returns the ID of the function to be executed
         scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
+    });
+
+
+    $('#search_bar').on('keyup', function () {
+        console.log("keyup big search");
+        searchWord = $(this).val();
+        request_parameters = {
+            q: searchWord
+        };
+        if (scheduled_function) clearTimeout(scheduled_function);
+        scheduled_function = setTimeout(ajax_call2, delay_by_in_ms, endpoint, request_parameters)
     });
 
 
@@ -141,6 +174,20 @@ $(document).ready(function () {
 
 
 // using jQuery
+    $("#close_button_modal").click(function () {
+        refs.modalEdicion.close();
+    });
+    var refs = {
+        modalEdicion: {
+            open: function () {
+                document.getElementById('my_modal').classList.add('is-active');
+            },
+            close: function () {
+                document.getElementById('my_modal').classList.remove('is-active');
+
+            }
+        }
+    };
 
 
     $('#post-form').on('submit', function (event) {

@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from search import views
+
 urlpatterns = [
                   path('users/', include('users.urls')),
                   path('amachef/', include('amachef.urls')),
@@ -28,4 +30,5 @@ urlpatterns = [
                   path('users/', include("django.contrib.auth.urls")),
                   path('recipes/', include('recipes.urls')),
                   path('ckeditor/', include('ckeditor_uploader.urls')),
+                  path('load_page/', views.load_search_page, name='load_page'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
