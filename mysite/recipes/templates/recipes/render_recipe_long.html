@@ -18,14 +18,14 @@
         {% endif %}
 
 
-        <p>{{ post.description|safe }}</p>
+        <p>{{ post.description }}</p>
 
         <p class="subtitle is-5">Ingredients:</p>{% for ingredient in  post.ingredients.all %}
         <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
     {% endfor %}
 
         <h3 class="subtitle">Directions:</h3>
-        <p> {{ post.directions }} </p>
+        <p> {{ post.directions|safe }} </p>
         <p> the amount is {{ post.amount }} </p>
 
         <br>
