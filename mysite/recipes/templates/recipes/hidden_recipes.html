@@ -1,0 +1,28 @@
+{% extends "amachef/base_generic.html" %}
+{% block content %}
+    <section>
+        <div class="container">
+
+            <h3 class="title">Hidden Recipes</h3>
+
+
+            <div class="columns is-multiline is-mobile">
+                {% for post in posts %}
+                    <div class="column">
+
+                        {% include 'recipes/render_recipe_short_img.html' %}
+
+                        <br>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            {% include 'recipes/pagination.html' %}
+
+        </div>
+    </section>
+
+
+{% endblock content %}

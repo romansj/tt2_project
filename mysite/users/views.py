@@ -204,30 +204,9 @@ def user_promotion(request, pkkk):
     new_mod.save()
     return redirect('users:profile-view', pk=pkkk)
 
-    # def hide_post(request, peekay):
-    #     print("esmu iekshaa def hide_post")
-    #     hide_item = get_object_or_404(Post, pk=peekay)
-    #     hide_item.is_hidden = True
-    #     hide_item.save()
-    #     # new_item.title = "Copy of " + new_item.title
-    #     # form = NewPostForm(request.POST or None, instance=new_item)
-    #     # if form.is_valid():
-    #     #     form.save()
-    #     #     return redirect('recipes:post-detail', pk=new_item.id)
-    #     #     # context = {
-    #     #     #     "form": form,
-    #     #     # }
-    #     #     # return render(request, "recipes/post_form.html", context)
-    #     # context = {
-    #     #     "form": form,
-    #     # }
-    #     return redirect('recipes:post-detail', pk=hide_item.pk)
 
-    # new_mod.is_moderator = True
-    # new_mod.save()
-    #
-    # new_new_mod = get_object_or_404(Profile, pk=pkkk)
-    #
-    # print('user_promotion new_new', new_new_mod.is_moderator)
-    #
-    # return redirect('users:profile-view', pk=pkkk)
+def user_demotion(request, pkkk):
+    new_mod = get_object_or_404(Profile, id=pkkk)
+    new_mod.is_moderator = False
+    new_mod.save()
+    return redirect('users:profile-view', pk=pkkk)

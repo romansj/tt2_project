@@ -78,7 +78,7 @@
                     <a class="navbar-item" href="{% url 'calculators' %}">Calculators</a>
                     <a class="navbar-item" href="{% url 'contact' %}">Contact Us</a>
                     {% if user.profile.is_moderator or user.is_superuser %}
-                        <a class="navbar-item" href="{% url 'contact' %}">Hidden Recipes</a>
+                        <a class="navbar-item" href="{% url 'recipes:hidden_recipes' %}">Hidden Recipes</a>
                     {% endif %}
 
 

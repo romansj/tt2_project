@@ -22,6 +22,9 @@ class PostListView(generic.ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
+    def get_queryset(self):
+        return Post.objects.filter(is_hidden=False)
+
 
 # def report(request):
 #     template_name = 'recipes/report.html'
@@ -130,42 +133,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
     fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time',
               'thumbnail']
 
-    # def get_initial(self):
-    #     print("esam get_initial")
-    #     post_text = self.request.POST.get('recid')
-    #     post = Post.objects.get(id=int(post_text))
-    #     return {'title': post.title, 'description': post.description, 'directions': post.description,
-    #             'amount': post.amount,
-    #             'category_new': post.category_new, 'cooking_time': post.cooking_time}
-
-    # def __init__(self, *args, **kwargs):
-    #     print("ieeju def init ar baigaam sviitraam")
-    #     post_text = self.request.POST.get('recid')
-    #     post = Post.objects.get(id=int(post_text))
-    #     super(PostCreateView, self).__init__(*args, **kwargs)
-    #     self.
-    #     self.fields['title'].initial = post.title
-    #     self.fields['description'].initial = post.description
-    #     self.fields['directions'].initial = post.directions
-    #     self.fields['amount'].initial = post.amount
-    #     self.fields['category_new'].initial = post.category_new
-    #     self.fields['cooking_time'].initial = post.cooking_time
-
     def form_valid(self, form):
-        print("shis arii printeejas")
-        # if self.request.method == 'POST':
-        #     post_text = self.request.POST.get('recid')
-        #     response_data = {}
-        #     post = Post.objects.get(id=int(post_text))
-        #     form['title'] = post.title
-        #     form['description'] = post.description
-        #     form['directions'] = post.directions
-        #     form['amount'] = post.amount
-        #     form['category_new'] = post.category_new
-        #     form['cooking_time'] = post.cooking_time
-        # else:
-        #     print("nav post bet gan ir ", self.request.method)
-
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -180,7 +148,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if (self.request.user == post.author) or self.request.user.is_moderator:
             return True
         return False
 
@@ -214,42 +182,6 @@ class CategoryDetailView(generic.DetailView):
     #     context["recipes"] = recipes
     #     return context
 
-
-# class PostCopyView(LoginRequiredMixin, generic.CreateView):
-#     model = Post
-#     fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-#     copied_post = Post.objects.get(pk=2)
-#     copied_post.pk = None
-#     copied_post.id = None
-#     initiala = {}
-#
-#     def values(self, request, **kwargs):
-#         copied_post = Post.objects.get(pk=self.kwargs.get('pk'))
-#         copytitle = copied_post.title
-#         copydesc = copied_post.description
-#         copyingr = copied_post.ingredients
-#         copydirec = copied_post.directions
-#         copyamount = copied_post.amount
-#         copycat = copied_post.category_new
-#         copytime = copied_post.cooking_time
-#         fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
-#         initiala = {'title': copytitle, 'description': copydesc, 'directions': copydirec, 'amount': copyamount,
-#                    'category_new': copycat, 'cooking_time': copytime}
-#         return initiala
-#
-#
-#     copytitle = copied_post.title
-#     copydesc = copied_post.description
-#     copyingr = copied_post.ingredients
-#     copydirec = copied_post.directions
-#     copyamount = copied_post.amount
-#     copycat = copied_post.category_new
-#     copytime = copied_post.cooking_time
-#     initial = initiala
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
 
 class PostCopyView(LoginRequiredMixin, generic.CreateView):
     print("esam iekshaa postcopyview")
@@ -287,10 +219,6 @@ def copy_post(request, pkk):
     if form.is_valid():
         form.save()
         return redirect('recipes:post-detail', pk=new_item.id)
-        # context = {
-        #     "form": form,
-        # }
-        # return render(request, "recipes/post_form.html", context)
     context = {
         "form": form,
     }
@@ -302,23 +230,7 @@ def hide_post(request, peekay):
     hide_item = get_object_or_404(Post, pk=peekay)
     hide_item.is_hidden = True
     hide_item.save()
-    # new_item.title = "Copy of " + new_item.title
-    # form = NewPostForm(request.POST or None, instance=new_item)
-    # if form.is_valid():
-    #     form.save()
-    #     return redirect('recipes:post-detail', pk=new_item.id)
-    #     # context = {
-    #     #     "form": form,
-    #     # }
-    #     # return render(request, "recipes/post_form.html", context)
-    # context = {
-    #     "form": form,
-    # }
     return redirect('recipes:post-detail', pk=hide_item.pk)
-
-
-# @moderator_required
-# def hide_recipe():
 
 
 class IngredientDetailView(generic.DetailView):
@@ -330,16 +242,16 @@ def unhide_post(request, peekay):
     hide_item = get_object_or_404(Post, pk=peekay)
     hide_item.is_hidden = False
     hide_item.save()
-    # new_item.title = "Copy of " + new_item.title
-    # form = NewPostForm(request.POST or None, instance=new_item)
-    # if form.is_valid():
-    #     form.save()
-    #     return redirect('recipes:post-detail', pk=new_item.id)
-    #     # context = {
-    #     #     "form": form,
-    #     # }
-    #     # return render(request, "recipes/post_form.html", context)
-    # context = {
-    #     "form": form,
-    # }
     return redirect('recipes:post-detail', pk=hide_item.pk)
+
+
+class HiddenRecipesView(generic.ListView):
+    model = Post
+    template_name = 'recipes/hidden_recipes.html'
+    context_hidden_status = True
+    paginate_by = 2
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+
+    def get_queryset(self):
+        return Post.objects.filter(is_hidden=True)

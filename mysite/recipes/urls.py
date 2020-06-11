@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, CategoryListView, \
-    CategoryDetailView, IngredientDetailView
+    CategoryDetailView, IngredientDetailView, HiddenRecipesView
 
 app_name = 'recipes'
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path('post/<int:pkk>/copy/', views.copy_post, name='post-copy'),
     path('post/<int:peekay>/hide/', views.hide_post, name='post_hide'),
     path('post/<int:peekay>/unhide/', views.unhide_post, name='post_unhide'),
+    path('hidden_recipes/', HiddenRecipesView.as_view(), name='hidden_recipes'),
 
     # path('post/<int:pk>/rate/', PostRateView.as_view(), name='post-rate'),
 
