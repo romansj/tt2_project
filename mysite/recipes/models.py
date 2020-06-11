@@ -32,11 +32,9 @@ class Post(models.Model):
     ingredients = models.ManyToManyField(Ingredient, blank=True)
     directions = models.TextField()
     amount = models.IntegerField()
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
-                               blank=True)  # lietotajs tiek dzests, bet post paliek "by (deleted)"
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # lietotajs tiek dzests, bet post paliek "by (deleted)"
     # Category = models.CharField(max_length=100)  # vai arī te liekam izvēli? #vajadzēs vēl vienu field
-    category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,
-                                     blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
+    category_new = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # dzesot kategoriju, post taja bridi nebus kategorija, bet post lai paliek
     cooking_time = models.DurationField()
     date_posted = models.DateTimeField(default=timezone.now)
 

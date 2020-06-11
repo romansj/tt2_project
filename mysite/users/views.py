@@ -22,7 +22,7 @@ from django.views import generic
 
 from recipes.models import Post
 from .forms import SignUpForm
-from .models import Question, Choice
+from .models import Question, Choice, Profile
 from .tokens import account_activation_token
 
 

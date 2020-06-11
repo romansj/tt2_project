@@ -23,12 +23,12 @@ class PostListView(generic.ListView):
     ordering = ['-date_posted']
 
 
-def report(request):
-    template_name = 'recipes/report.html'
-    a = "zinojums"
-    if request.method == 'POST':
-        send_mail('Report', a, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
-    return render(request, 'recipes/report.html')
+# def report(request):
+#     template_name = 'recipes/report.html'
+#     a = "zinojums"
+#     if request.method == 'POST':
+#         send_mail('Report', a, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
+#     return render(request, 'recipes/report.html')
 
 
 class PostDetailView(generic.DetailView):
@@ -40,7 +40,7 @@ class PostDetailView(generic.DetailView):
         context['form'] = form
         return context
 
-#TODO IDIOT THERES TWO REPORTS
+
 def report(request, pk):
     response_data = {}
     model = Recipe_report
@@ -51,8 +51,7 @@ def report(request, pk):
         response_data['postpk'] = pk
         print(request.user.username)
         # šī daļa ir tur kur strādā liekot datu
-        reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk),
-                                  reported_text=report_text)
+        reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk), reported_text=report_text)
         reporting.save()
         text = request.user.username + report_text + str(pk)
         send_mail('Report', text, settings.EMAIL_HOST_USER, ['amachefDF@gmail.com'], fail_silently=False)
@@ -126,17 +125,17 @@ def rating_edit(request, pk):
 
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
-    print("printeejas")
+    # print("printeejas")
     model = Post
     fields = ['title', 'description', 'ingredients', 'directions', 'amount', 'category_new', 'cooking_time']
 
-    def get_initial(self):
-        print("esam get_initial")
-        post_text = self.request.POST.get('recid')
-        post = Post.objects.get(id=int(post_text))
-        return {'title': post.title, 'description': post.description, 'directions': post.description,
-                'amount': post.amount,
-                'category_new': post.category_new, 'cooking_time': post.cooking_time}
+    # def get_initial(self):
+    #     print("esam get_initial")
+    #     post_text = self.request.POST.get('recid')
+    #     post = Post.objects.get(id=int(post_text))
+    #     return {'title': post.title, 'description': post.description, 'directions': post.description,
+    #             'amount': post.amount,
+    #             'category_new': post.category_new, 'cooking_time': post.cooking_time}
 
     # def __init__(self, *args, **kwargs):
     #     print("ieeju def init ar baigaam sviitraam")
@@ -153,18 +152,18 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         print("shis arii printeejas")
-        if self.request.method == 'POST':
-            post_text = self.request.POST.get('recid')
-            response_data = {}
-            post = Post.objects.get(id=int(post_text))
-            form['title'] = post.title
-            form['description'] = post.description
-            form['directions'] = post.directions
-            form['amount'] = post.amount
-            form['category_new'] = post.category_new
-            form['cooking_time'] = post.cooking_time
-        else:
-            print("nav post bet gan ir ", self.request.method)
+        # if self.request.method == 'POST':
+        #     post_text = self.request.POST.get('recid')
+        #     response_data = {}
+        #     post = Post.objects.get(id=int(post_text))
+        #     form['title'] = post.title
+        #     form['description'] = post.description
+        #     form['directions'] = post.directions
+        #     form['amount'] = post.amount
+        #     form['category_new'] = post.category_new
+        #     form['cooking_time'] = post.cooking_time
+        # else:
+        #     print("nav post bet gan ir ", self.request.method)
 
         form.instance.author = self.request.user
         return super().form_valid(form)
