@@ -6,7 +6,7 @@
     <!--Import Google Icon Font-->
     <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.min.css?v=202006091622">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href=https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 
 
     <!--Let browser know website is optimized for mobile-->
@@ -72,7 +72,6 @@
                     <a class="navbar-item" href="{% url 'results' %}">Search</a>
                     <a class="navbar-item" href="{% url 'recipes:fresh' %}">Recipes</a>
                     <a class="navbar-item" href="{% url 'calculators' %}">Calculators</a>
-                    <a class="navbar-item" href="{% url 'contact' %}">Contact Us</a>
                     {% if user.profile.is_moderator or user.is_superuser %}
                         <a class="navbar-item" href="{% url 'recipes:hidden_recipes' %}">Hidden Recipes</a>
                     {% endif %}
@@ -96,7 +95,7 @@
 
                                     <div class="navbar-dropdown">
                                         <a class="navbar-item" href="{% url 'users:profile-view' user.id %}">Profile</a>
-                                        <a class="navbar-item" href="{% url 'settings' %}">Settings</a>
+                                        {#                                        <a class="navbar-item" href="{% url 'settings' %}">Settings</a>#}
                                         <a class="navbar-item" href="{% url 'logout' %}">Logout</a>
                                         <hr class="navbar-divider">
                                         <a class="navbar-item" href="{% url 'users:report-issue' %}">Report an issue</a>
@@ -151,6 +150,9 @@
         <a href="{% url 'about' %}">About Us</a><br>
         <a href="{% url 'privacy' %}">Privacy Policy</a><br>
         <a href="{% url 'terms' %}">Terms and Conditions</a><br>
+
+        <br>
+        <p>© 2020 Copyright Nyan Cat Inc.</p>
 
     </div>
 

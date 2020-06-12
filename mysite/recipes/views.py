@@ -4,9 +4,10 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, F
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from django.views import generic
 
 from search.forms import RatingForm
@@ -18,23 +19,34 @@ from .models import Post, Category, Rating, Recipe_report
 
 class PostListView(generic.ListView):
     # todo pagaidam 2
-    paginate_by = 2
+    # paginate_by = 2
     model = Post
     template_name = 'recipes/fresh.html'
-    context_object_name = 'posts'
-    ordering = ['-date_posted']
+
+    # context_object_name = 'posts'
+    # queryset = Post.objects.order_by('-date_posted')
+    # ordering = ['date_posted']
+
+    # def get_ordering(self):
+    #     ordering = self.request.GET.get('ordering', '-date_posted')
+    #     # validate ordering here
+    #     return ordering
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
 
-        top_posts = Post.objects.all().filter(is_hidden=False).order_by('rating__stars')
+        # top_posts = Post.objects.all().filter(is_hidden=False).order_by('rating__stars')
+        # MyModel.objects.all().order_by(F('price').desc(nulls_last=True))
+        top_posts = Post.objects.all().filter(is_hidden=False).order_by(F('rating__stars').desc(nulls_last=True))
+
         paginator = Paginator(top_posts, 2)  # Show 25 contacts per page.
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
         context.update({
+            'posts': Post.objects.all().filter(is_hidden=False).order_by('-date_posted')[:4],
             'page_obj': page_obj,
-            'top_posts': top_posts,
+            'top_posts': top_posts[:4],
             # 'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
             'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
         })
@@ -42,6 +54,40 @@ class PostListView(generic.ListView):
 
     def get_queryset(self):
         return Post.objects.filter(is_hidden=False)
+
+
+class BestPostListView(generic.ListView):
+    model = Post
+    template_name = 'recipes/fresh_all.html'
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(BestPostListView, self).get_context_data(**kwargs)
+
+        context.update({
+            'fresh_posts': Post.objects.all().filter(is_hidden=False).order_by('-date_posted'),
+            'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
+        })
+        return context
+
+    # def get_queryset(self):
+    #     return Post.objects.filter(is_hidden=False)
+
+
+class HRPostListView(generic.ListView):
+    model = Post
+    template_name = 'recipes/top_all.html'
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(HRPostListView, self).get_context_data(**kwargs)
+
+        context.update({
+            'top_posts': Post.objects.all().filter(is_hidden=False).order_by(F('rating__stars').desc(nulls_last=True)),
+            'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
+        })
+        return context
+
 
 
 # def report(request):
@@ -190,7 +236,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
 
 class CategoryListView(generic.ListView):
     # todo pagaidam 2
-    paginate_by = 2
+    paginate_by = 20
     model = Category
     template_name = 'recipes/categories.html'
     context_object_name = 'categories'
@@ -223,6 +269,7 @@ class PostCopyView(LoginRequiredMixin, generic.CreateView):
         obj.ingredients = post.ingredients
         obj.directions = post.directions
         obj.amount = post.amount
+        obj.date_posted = timezone.now()
         obj.category_new = post.category_new
         obj.cooking_time = post.cooking_time
         obj.save()
@@ -234,10 +281,13 @@ class PostCopyView(LoginRequiredMixin, generic.CreateView):
 
 def copy_post(request, pkk):
     print("esmu iekshaa def copy_post")
+    old_item = get_object_or_404(Post, pk=pkk)
     new_item = get_object_or_404(Post, pk=pkk)
     new_item.pk = None
     new_item.author = request.user
     new_item.title = "Copy of " + new_item.title
+    new_item.date_posted = timezone.now()
+
     form = NewPostForm(request.POST or None, instance=new_item)
     if form.is_valid():
         form.save()
@@ -295,7 +345,7 @@ class HiddenRecipesView(generic.ListView):
     model = Post
     template_name = 'recipes/hidden_recipes.html'
     context_hidden_status = True
-    paginate_by = 2
+    paginate_by = 20
     context_object_name = 'posts'
     ordering = ['-date_posted']
 

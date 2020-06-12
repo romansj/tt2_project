@@ -34,14 +34,19 @@ class RatingForm(forms.ModelForm):
         model = Rating
         # exclude = ['author', 'updated', 'created', ]
         fields = ['comment', 'stars']
+
         widgets = {
             'comment': forms.TextInput(attrs={
                 'id': 'ingredient-name',
                 'required': True,
-                'placeholder': 'Say something...'
+                'placeholder': 'Say something...',
+                'class': 'input',
             }),
             'stars': forms.NumberInput(attrs={
+                'class': 'input',
+                'placeholder': 'Rate',
                 'id': 'post-stars',
-                'required': True
-
+                'required': True,
+                'min': 1,
+                'max': 5
             }), }

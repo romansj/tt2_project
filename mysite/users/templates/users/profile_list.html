@@ -3,52 +3,75 @@
 
 
 {% block content %}
-    {#    TODO this#}
-    {#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
-    {#        <div class="fieldWrapper">#}
-    {#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
-    {#        </div>#}
-    {#        <input class="button" type="submit" value="Post report">#}
-    {#    </form>#}
-
-
-
 
     {% with posts|first as recepte %}
 
-        <h2 class="title">User profile</h2>
-        <span class="subtitle is-3">{{ recepte.author.username }}</span><br>
+        <h2 class="title">Profile</h2>
+
+        <div class="columns is-mobile">
+
+            <div class="column is-one-third">
+
+                <span class="subtitle is-3">{{ recepte.author.username }}</span><br>
+                <span>
+                {% if recepte.author.is_superuser %}
+                    Administrator
+                {% elif  recepte.author.profile.is_moderator %}
+                    Moderator
+                {% else %}
+                    User
+                {% endif %}
+                </span>
+
+            </div>
 
 
-        <span class="subtitle">Posted recipes</span><br><br>
+            <div class="column is-one-third">
 
-        {% if recepte.author.profile.is_moderator %}
-            <p>VERIFIED MODERATOR</p>
-        {% endif %}
-        {% if recepte.author.profile.profile.is_superuser %}
-            <p>ADMIN</p>
+                {% if user.is_superuser %}
+                    {% if recepte.author.profile.is_moderator %}
+                        <a class="button is-danger" href="{% url 'users:user_demotion' recepte.author.id %}">Demote</a>
+                    {% elif not recepte.author.is_superuser %}
+                        <a class="button is-danger" href="{% url 'users:user_promotion' recepte.author.id %}">Promote</a>
+                    {% endif %}
 
-            {% if not recepte.author.profile.is_moderator %}
-                <a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>
-            {% else %}
-                <a href="{% url 'users:user_demotion' recepte.author.id %}">Demote user</a>
-            {% endif %}
+                {% endif %}
 
-        {% endif %}
+            </div>
 
-        {#        {% if not recepte.author.is_moderator %}#}
-        {#                {% if not recepte.author.is_superuser %}#}
-        {#            {% if not recepte.author == user %}#}
-        {#                {% if user.is_superuser %}#}
-        {#                    <a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>#}
-        {#                {% endif %}#}
-        {#                {% endif %}#}
-        {#            {% endif %}#}
-        {#        {% endif %}#}
-        {#        {% if recepte.author.is_moderator or recepte.author.is_superuser %}#}
-        {#            <h3>VERIFIED MODERATOR</h3>#}
-        {#        {% endif %}#}
+
+            <div class="column is-one-third">
+                <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}
+                    <div class="fieldWrapper">
+                        <input name="report_profile" id="report_message" placeholder="Reason of report"></input>
+                    </div>
+                    <input class="button" type="submit" value="Post report">
+                </form>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
     {% endwith %}
+
+
+
+
+
+
+    <span class="subtitle">Posted recipes</span><br><br>
+
+
+
     {% for post in posts %}
         {% include 'recipes/render_recipe_short.html' %}
     {% endfor %}

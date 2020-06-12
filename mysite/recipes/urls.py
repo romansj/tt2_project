@@ -2,12 +2,15 @@ from django.urls import path
 
 from . import views
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, CategoryListView, \
-    CategoryDetailView, HiddenRecipesView
+    CategoryDetailView, HiddenRecipesView, BestPostListView, HRPostListView
 
 app_name = 'recipes'
 
 urlpatterns = [
     path('', PostListView.as_view(), name='fresh'),
+    path('recipes/fresh_all', BestPostListView.as_view(), name='fresh_all'),
+    path('recipes/top_all', HRPostListView.as_view(), name='top_all'),
+
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     # TODO ELVIS
     path('post/report', views.report, name='report'),

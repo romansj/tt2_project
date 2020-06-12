@@ -10,8 +10,14 @@
 
     <br>
 
-    {% for post in category.category_posts.all %}
-        {% include 'recipes/render_recipe_short.html' %}
-    {% endfor %}
+    {% if category.category_posts.all %}
+        {% for post in category.category_posts.all %}
+            {% include 'recipes/render_recipe_short.html' %}
+        {% endfor %}
+    {% else %}
+        <p>No one has posted anything in this category</p>
+    {% endif %}
+
+
 
 {% endblock %}

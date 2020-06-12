@@ -28,44 +28,30 @@
 
 
     <section>
+        <div class="container">
 
-        <div class="level">
-            <div class="level-left"><h3 class="level-item title">Fresh recipes</h3></div>
-            <div class="level-right"><a class="level-item button" href="{% url 'recipes:fresh_all' %}">See all</a></div>
-        </div>
-
-        <div class="columns is-multiline is-mobile">
-            {% for post in posts %}
-                <div class="column is-one-third">
-                    {#                            {{ post.date_posted }}#}
-                    {% include 'recipes/render_recipe_short_img.html' %}
-                </div>
-            {% endfor %}
-        </div>
-
-
-    </section>
-
-    <br>
-    <hr class="navbar-divider"><br>
-
-    <section>
-
-        <div class="level">
-            <div class="level-left"><h3 class="level-item title">Highest rated recipes</h3></div>
-            <div class="level-right"><a class="level-item button" href="{% url 'recipes:top_all' %}">See all</a></div>
-        </div>
+            <h3 class="title">Fresh recipes</h3>
 
             <div class="columns is-multiline is-mobile">
-                {% for post in top_posts %}
+                {% for post in fresh_posts %}
                     <div class="column is-one-third">
+                        {{ post.date_posted }}
                         {% include 'recipes/render_recipe_short_img.html' %}
+                        <br>
                     </div>
                 {% endfor %}
+
             </div>
 
 
+            {% include 'recipes/pagination.html' %}
+
+
+        </div>
     </section>
+
+
+
 
 {% endblock content %}
 

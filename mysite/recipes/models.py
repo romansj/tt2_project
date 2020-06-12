@@ -33,7 +33,7 @@ class Post(models.Model):
     # id automātiski tiek pievienots ar auto increments django
     title = models.CharField(max_length=100)
     description = models.TextField()
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
+    ingredients = models.TextField(default='')
     directions = RichTextUploadingField()
     amount = models.IntegerField()
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # lietotajs tiek dzests, bet post paliek "by (deleted)"

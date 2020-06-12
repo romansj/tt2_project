@@ -1,13 +1,24 @@
-<h3>Reviews</h3>
+<h3 class="subtitle is-5">Reviews</h3>
 
 {% if user.is_authenticated and not post.author == user %}
-    <form id="post-form" action="{% url 'recipes:rate' post.id %}" method="POST">{% csrf_token %}
-        <div class="fieldWrapper">
-            {{ form.stars }}
-            {{ form.comment }}
+    <div class="columns is-mobile">
+        <div class="column is-one-third">
+
+
+            <form id="post-form" action="{% url 'recipes:rate' post.id %}" method="POST">{% csrf_token %}
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">{{ form.stars }}</div>
+                        <div class="level-item">{{ form.comment }}</div>
+                    </div>
+
+                </div>
+                <input class="button" type="submit" value="Post comment">
+            </form>
+
         </div>
-        <input class="button" type="submit" value="Post comment">
-    </form>
+    </div>
+
     <br>
 {% endif %}
 

@@ -22,8 +22,8 @@ from django.views import generic
 from django.views.decorators.cache import never_cache
 
 from recipes.models import Post
-from .forms import SignUpForm, UserEditForm
-from .models import Question, Choice, User_report,Profile
+from .forms import SignUpForm
+from .models import Question, Choice, User_report, Profile
 from .tokens import account_activation_token
 
 
@@ -123,10 +123,6 @@ class IndexView(generic.ListView):
 
 class ProfileDetailView(generic.DetailView):
     model = Profile
-
-    @never_cache
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
 
 def report_issue(request):
