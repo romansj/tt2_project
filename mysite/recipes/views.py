@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -171,7 +172,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def test_func(self):
         post = self.get_object()
-        if (self.request.user == post.author) or self.request.user.is_moderator:
+        if (self.request.user == post.author) or self.request.user.is_superuser:
             return True
         return False
 
@@ -183,7 +184,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     # important, tests if the user is author, if he can actually delete
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if (self.request.user == post.author) or self.request.user.is_superuser:
             return True
         return False
 
@@ -206,30 +207,30 @@ class CategoryDetailView(generic.DetailView):
     #     return context
 
 
-class PostCopyView(LoginRequiredMixin, generic.CreateView):
-    print("esam iekshaa postcopyview")
-    model = Post
-    form_class = NewPostForm
-    success_url = '/post/%(id)s'
-
-    def init_values(self, form):
-        print("esam iekshaa init_values")
-        post_text = self.request.POST.get('recid')
-        post = Post.objects.get(id=int(post_text))
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.title = post.title
-        obj.description = post.description
-        obj.ingredients = post.ingredients
-        obj.directions = post.directions
-        obj.amount = post.amount
-        obj.category_new = post.category_new
-        obj.cooking_time = post.cooking_time
-        obj.save()
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+# class PostCopyView(LoginRequiredMixin, generic.CreateView):
+#     print("esam iekshaa postcopyview")
+#     model = Post
+#     form_class = NewPostForm
+#     success_url = '/post/%(id)s'
+#
+#     def init_values(self, form):
+#         print("esam iekshaa init_values")
+#         post_text = self.request.POST.get('recid')
+#         post = Post.objects.get(id=int(post_text))
+#         obj = form.save(commit=False)
+#         obj.user = self.request.user
+#         obj.title = post.title
+#         obj.description = post.description
+#         obj.ingredients = post.ingredients
+#         obj.directions = post.directions
+#         obj.amount = post.amount
+#         obj.category_new = post.category_new
+#         obj.cooking_time = post.cooking_time
+#         obj.save()
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
 
 
 def copy_post(request, pkk):
@@ -248,11 +249,18 @@ def copy_post(request, pkk):
     return render(request, "recipes/post_form.html", context)
 
 
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
+                  login_url='/users/login/')
 def hide_post(request, peekay):
+    # def test_func(self):
+    #     if self.request.user.is_superuser or self.request.user.profile.is_moderator:
+    #         return True
+    #     return False
     print("esmu iekshaa def hide_post")
     hide_item = get_object_or_404(Post, pk=peekay)
     hide_item.is_hidden = True
     hide_item.save()
+
     return redirect('recipes:post-detail', pk=hide_item.pk)
 
 
@@ -283,6 +291,8 @@ def Add_ingredient(request, pk):
         )
 
 
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
+                  login_url='/users/login/')
 def unhide_post(request, peekay):
     print("esmu iekshaa def hide_post")
     hide_item = get_object_or_404(Post, pk=peekay)

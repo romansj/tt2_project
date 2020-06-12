@@ -28,26 +28,27 @@
         {% if recepte.author.profile.profile.is_superuser %}
             <p>ADMIN</p>
 
-            {% if not recepte.author.profile.is_moderator %}
+
+{% if recepte.author.profile.is_moderator %}
+<a href="{% url 'users:user_demotion' recepte.author.id %}">Demote user</a>
+{% else %}
                 <a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>
-            {% else %}
-                <a href="{% url 'users:user_demotion' recepte.author.id %}">Demote user</a>
-            {% endif %}
+{% endif %}
 
-        {% endif %}
+{% endif %}
 
-        {#        {% if not recepte.author.is_moderator %}#}
-        {#                {% if not recepte.author.is_superuser %}#}
-        {#            {% if not recepte.author == user %}#}
-        {#                {% if user.is_superuser %}#}
-        {#                    <a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>#}
-        {#                {% endif %}#}
-        {#                {% endif %}#}
-        {#            {% endif %}#}
-        {#        {% endif %}#}
-        {#        {% if recepte.author.is_moderator or recepte.author.is_superuser %}#}
-        {#            <h3>VERIFIED MODERATOR</h3>#}
-        {#        {% endif %}#}
+{% if not recepte.author.is_moderator %}
+{% if not recepte.author.is_superuser %}
+{% if not recepte.author == user %}
+{% if user.is_superuser %}
+<a href="{% url 'users:user_promotion' recepte.author.id %}">Promote user</a>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if recepte.author.is_moderator or recepte.author.is_superuser %}
+<h3>VERIFIED MODERATOR</h3>
+{% endif %}
     {% endwith %}
     {% for post in posts %}
         {% include 'recipes/render_recipe_short.html' %}

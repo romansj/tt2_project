@@ -1,28 +1,35 @@
 <div class="card">
     <div class="card-content">
-
-        {#        <div class="card-image">#}
-        {#            <figure class="image is-4by3">#}
-        {#                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">#}
-        {#            </figure>#}
-        {#        </div>#}
-        {#        <br>#}
-        {#        <br>#}
+        {% if not post.is_hidden %}
+        {#
+        <div class="card-image">#}
+            {#
+            <figure class="image is-4by3">#}
+                {# <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">#}
+                {#
+            </figure>
+            #}
+            {#
+        </div>
+        #}
+        {# <br>#}
+        {# <br>#}
 
 
         <h3 class="title">{{ post.title }}</h3>
         {% if post.category_new %}
-            <a class="subtitle un" href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new }}</a>
+        <a class="subtitle un" href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new
+            }}</a>
         {% else %}
-            <p class="subtitle">Category not specified</p>
+        <p class="subtitle">Category not specified</p>
         {% endif %}
 
 
         <p>{{ post.description }}</p>
         <hr class="navbar-divider">
-        <p class="subtitle is-5">Ingredients:</p>{% for ingredient in  post.ingredients.all %}
+        <p class="subtitle is-5">Ingredients:</p>{% for ingredient in post.ingredients.all %}
         <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
-    {% endfor %}
+        {% endfor %}
         <hr class="navbar-divider">
         <h3 class="subtitle">Directions:</h3>
         <p> {{ post.directions|safe }} </p>
@@ -36,16 +43,18 @@
 
                 <p class="level-item"><span class="mr-1	material-icons">star_border</span>
                     {% if post.average_rating %}
-                        {{ post.average_rating }}
+                    {{ post.average_rating }}
                     {% else %}
-                        No ratings yet.
+                    No ratings yet.
                     {% endif %}
                 </p>
-                <p class="level-item"><span class="mr-1	material-icons">query_builder</span>{{ post.cooking_time }}</p>
+                <p class="level-item"><span class="mr-1	material-icons">query_builder</span>{{ post.cooking_time }}
+                </p>
 
                 <div class="level-item">
 
-                    <p class=" un" onclick="location.href='{% url 'users:profile-view' post.author.id %}'"><span class="mr-1	 material-icons">person_outline</span>made
+                    <p class=" un" onclick="location.href='{% url 'users:profile-view' post.author.id %}'"><span
+                            class="mr-1	 material-icons">person_outline</span>made
                         by {{ post.author }}</p>
                 </div>
 
@@ -53,35 +62,51 @@
         </div>
 
         <div class="mb-5	">
-            {#            <div class="level-left">#}
-            {#                <div class="level-item">#}
-            {# Recipe edit / delete controls #}
-            {% if post.author == user %}
-                <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
-                <a class="button is-warning" href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
+            {#
+            <div class="level-left">#}
+                {#
+                <div class="level-item">#}
+                    {# Recipe edit / delete controls #}
+                    {% if post.author == user or user.is_superuser %}
+                    <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
+                    <a class="button is-warning" href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
 
-            {% endif %}
-            {#                </div>#}
-            {#                <div class="level-item">#}
-            {# Admin / mod controls #}
-            {% if user.is_authenticated and user.profile.is_moderator or user.is_superuser %}
-                {% if post.is_hidden %}
-                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_unhide' post.id %}" data-identifikators="{{ post.id }}">Unhide recipe</a>
-                {% else %}
-                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_hide' post.id %}" data-identifikators="{{ post.id }}">Hide recipe</a>
-                {% endif %}
-            {% endif %}
-            {#                </div>#}
+                    {% endif %}
+                    {#
+                </div>
+                #}
+                {#
+                <div class="level-item">#}
+                    {# Admin / mod controls #}
+                    {% if user.is_authenticated and user.profile.is_moderator or user.is_superuser %}
+                    {% if post.is_hidden %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_unhide' post.id %}"
+                       data-identifikators="{{ post.id }}">Unhide recipe</a>
+                    {% else %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_hide' post.id %}"
+                       data-identifikators="{{ post.id }}">Hide recipe</a>
+                    {% endif %}
+                    {% endif %}
+                    {#
+                </div>
+                #}
 
-            {#                <div class="level-item">#}
-            {# Copying recipe #}
-            {% if user.is_authenticated and not post.author == user %}
-                <button class="button" id="button_copy" onclick="location.href='{% url 'recipes:post-copy' post.id %}'" data-identifikators="{{ post.id }}">Copy recipe
-                </button>
-                <br><br>
-            {% endif %}
-            {#                </div>#}
-            {#            </div>#}
+                {#
+                <div class="level-item">#}
+                    {# Copying recipe #}
+                    {% if user.is_authenticated and not post.author == user %}
+                    <button class="button" id="button_copy"
+                            onclick="location.href='{% url 'recipes:post-copy' post.id %}'"
+                            data-identifikators="{{ post.id }}">Copy recipe
+                    </button>
+                    <br><br>
+                    {% endif %}
+                    {#
+                </div>
+                #}
+                {#
+            </div>
+            #}
         </div>
 
 
@@ -89,17 +114,15 @@
 
 
             {% if user.is_authenticated and not post.author == user %}
-                <div class="box" style="background: mediumturquoise;">
-                    <form id="report-form" action="{% url 'recipes:report' post.id %}" method="POST">{% csrf_token %}
-                        <div class="fieldWrapper">
-                            <input name="report" id="report_message" placeholder="Reason of report"/>
-                        </div>
-                        <input class="button" type="submit" value="Post report">
-                    </form>
-                </div>
+            <div class="box" style="background: mediumturquoise;">
+                <form id="report-form" action="{% url 'recipes:report' post.id %}" method="POST">{% csrf_token %}
+                    <div class="fieldWrapper">
+                        <input name="report" id="report_message" placeholder="Reason of report"/>
+                    </div>
+                    <input class="button" type="submit" value="Post report">
+                </form>
+            </div>
             {% endif %}
-
-
 
 
             <div class="box" style="background: #3e8e41">
@@ -109,12 +132,154 @@
 
 
             {% if user.is_authenticated and user.is_moderator %}
-                <div class="box">
-                    <p>u are authenticated and a moderator</p>
-                </div>
+            <div class="box">
+                <p>u are authenticated and a moderator</p>
+            </div>
             {% endif %}
         </div>
+        {% endif %}
+        {% if post.is_hidden %}
+        {% if user.is_superuser or user.profile.is_moderator %}
+        {#
+        <div class="card-image">#}
+            {#
+            <figure class="image is-4by3">#}
+                {# <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">#}
+                {#
+            </figure>
+            #}
+            {#
+        </div>
+        #}
+        {# <br>#}
+        {# <br>#}
 
+
+        <h3 class="title">{{ post.title }}</h3>
+        {% if post.category_new %}
+        <a class="subtitle un" href="{% url 'recipes:category-detail' post.category_new.id %}">{{ post.category_new
+            }}</a>
+        {% else %}
+        <p class="subtitle">Category not specified</p>
+        {% endif %}
+
+
+        <p>{{ post.description }}</p>
+        <hr class="navbar-divider">
+        <p class="subtitle is-5">Ingredients:</p>{% for ingredient in post.ingredients.all %}
+        <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
+        {% endfor %}
+        <hr class="navbar-divider">
+        <h3 class="subtitle">Directions:</h3>
+        <p> {{ post.directions|safe }} </p>
+        <p> the amount is {{ post.amount }} </p>
+
+        <br>
+        <hr class="navbar-divider">
+        <div class="level">
+            <!-- Left side -->
+            <div class="level-left">
+
+                <p class="level-item"><span class="mr-1	material-icons">star_border</span>
+                    {% if post.average_rating %}
+                    {{ post.average_rating }}
+                    {% else %}
+                    No ratings yet.
+                    {% endif %}
+                </p>
+                <p class="level-item"><span class="mr-1	material-icons">query_builder</span>{{ post.cooking_time }}
+                </p>
+
+                <div class="level-item">
+
+                    <p class=" un" onclick="location.href='{% url 'users:profile-view' post.author.id %}'"><span
+                            class="mr-1	 material-icons">person_outline</span>made
+                        by {{ post.author }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mb-5	">
+            {#
+            <div class="level-left">#}
+                {#
+                <div class="level-item">#}
+                    {# Recipe edit / delete controls #}
+                    {% if post.author == user or user.is_superuser %}
+                    <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
+                    <a class="button is-warning" href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
+
+                    {% endif %}
+                    {#
+                </div>
+                #}
+                {#
+                <div class="level-item">#}
+                    {# Admin / mod controls #}
+                    {% if user.is_authenticated and user.profile.is_moderator or user.is_superuser %}
+                    {% if post.is_hidden %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_unhide' post.id %}"
+                       data-identifikators="{{ post.id }}">Unhide recipe</a>
+                    {% else %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_hide' post.id %}"
+                       data-identifikators="{{ post.id }}">Hide recipe</a>
+                    {% endif %}
+                    {% endif %}
+                    {#
+                </div>
+                #}
+
+                {#
+                <div class="level-item">#}
+                    {# Copying recipe #}
+                    {% if user.is_authenticated and not post.author == user %}
+                    <button class="button" id="button_copy"
+                            onclick="location.href='{% url 'recipes:post-copy' post.id %}'"
+                            data-identifikators="{{ post.id }}">Copy recipe
+                    </button>
+                    <br><br>
+                    {% endif %}
+                    {#
+                </div>
+                #}
+                {#
+            </div>
+            #}
+        </div>
+
+
+        <div class="box" style="background: hotpink">
+
+
+            {% if user.is_authenticated and not post.author == user %}
+            <div class="box" style="background: mediumturquoise;">
+                <form id="report-form" action="{% url 'recipes:report' post.id %}" method="POST">{% csrf_token %}
+                    <div class="fieldWrapper">
+                        <input name="report" id="report_message" placeholder="Reason of report"/>
+                    </div>
+                    <input class="button" type="submit" value="Post report">
+                </form>
+            </div>
+            {% endif %}
+
+
+            <div class="box" style="background: #3e8e41">
+
+                {% include 'recipes/ratings.html' %}
+            </div>
+
+
+            {% if user.is_authenticated and user.is_moderator %}
+            <div class="box">
+                <p>u are authenticated and a moderator</p>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <h1>THE RECIPE YOU'RE TRYING TO VIEW IS HIDDEN ;)</h1>
+        {% endif %}
+        {% endif %}
     </div>
 
 </div>
