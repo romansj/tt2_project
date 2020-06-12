@@ -1,12 +1,12 @@
 $(document).ready(function () {
     $('#report-issue-from').on('submit', function (event) {
         event.preventDefault();
-        console.log("aaaaa");  // sanity check
+        //console.log("aaaaa");  // sanity check
         send_information();
     });
 
     function send_information() {
-        console.log("The report is being sent"); // sanity check
+        //console.log("The report is being sent"); // sanity check
         $.ajax({
             url: "", // the endpoint
             type: "POST", // http method
@@ -15,10 +15,10 @@ $(document).ready(function () {
             // handle a successful response
             success: function (json) {
                 $('#reporting-message').val(''); // remove the value from the input
-                console.log(json); // log the returned json to the console
+                //console.log(json); // log the returned json to the console
 
 
-                console.log("success"); // another sanity check
+                //console.log("success"); // another sanity check
             },
 
 

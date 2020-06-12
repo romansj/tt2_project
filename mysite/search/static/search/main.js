@@ -46,7 +46,7 @@ $(document).ready(function () {
 
     let ajax_call = function (endpoint, request_parameters) {
 
-        console.log(request_parameters);
+        //console.log(request_parameters);
 
         $.getJSON(endpoint, request_parameters)
             .done(response => {
@@ -71,7 +71,7 @@ $(document).ready(function () {
         searchBarModal.focus();
         searchBarModal.val(enteredWord);
         searchBarModal.on('keyup', function () {
-            console.log("keyup big search");
+            //console.log("keyup big search");
             enteredWord = $(this).val();
             request_parameters = {
                 q: enteredWord
@@ -81,13 +81,13 @@ $(document).ready(function () {
         });
 
         var pathname = window.location.pathname;
-        console.log("path " + pathname);
+        //console.log("path " + pathname);
         if (pathname)
 
         //ja mes jau esam search lapa, tad html tur jau ir (kurā mes atrodam elementu un aizvietojam ar renderotiem rezultatiem no views.py)
         //savukart ja mes vel neesam search lapa, tad html vel nav, mes ieladejam content blokos tieši
 
-            console.log(request_parameters);
+        //console.log(request_parameters);
 
         $.getJSON(endpoint, request_parameters)
             .done(response => {
@@ -101,7 +101,7 @@ $(document).ready(function () {
     var enteredWord;
     var clickedCategoryID;
     user_input.on('keyup', function () {
-        console.log("keyup");
+        //console.log("keyup");
         enteredWord = $(this).val();
         request_parameters = {
             q: enteredWord // value of user_input: the HTML element with ID user-input
@@ -148,7 +148,7 @@ $(document).ready(function () {
 
     function doSearch(elem,) {
         clickedCategoryID = elem.dataset.categoryId;
-        console.log(elem.dataset.categoryId);//sanity check
+        //console.log(elem.dataset.categoryId);//sanity check
 
         request_parameters = {
             cat: clickedCategoryID
@@ -162,7 +162,7 @@ $(document).ready(function () {
         const endpoint = '/search/results/';
 
         let ajax_call = function (endpoint, request_parameters) {
-            console.log(request_parameters);
+            //console.log(request_parameters);
 
             $.getJSON(endpoint, request_parameters)
                 .done(response => {
@@ -188,9 +188,9 @@ $(document).ready(function () {
         selectedCategory.classList.add("selected_category");
 
         $('#remove_category_bttn').click(function () {
-            console.log('click');
+            //console.log('click');
             if (selectedCategory) {
-                console.log('in remove');
+                //console.log('in remove');
                 selectedCategory.classList.remove("selected_category");
                 categorySelectionDiv.html('');
                 clickedCategoryID = '';
@@ -226,13 +226,13 @@ $(document).ready(function () {
 
     $('#post-form').on('submit', function (event) {
         event.preventDefault();
-        console.log("form submitted!");  // sanity check
+        //console.log("form submitted!");  // sanity check
         create_post();
     });
 
 
     function create_post() {
-        console.log("create post is working!"); // sanity check
+        //console.log("create post is working!"); // sanity check
         $.ajax({
             url: "rate/", // the endpoint
             type: "POST", // http method
@@ -241,12 +241,12 @@ $(document).ready(function () {
             // handle a successful response
             success: function (html) {
                 $('#post-text').val(''); // remove the value from the input
-                console.log(html); // log the returned json to the console
+                //console.log(html); // log the returned json to the console
                 $("#results").prepend(html);
                 $("#no_ratings_div").html('');
 
 
-                console.log("success"); // another sanity check
+                //console.log("success"); // another sanity check
             },
 
 
@@ -268,13 +268,13 @@ $(document).ready(function () {
 
 
     $('#button_delete_comment').click(function (event) {
-        console.log("clicked delete");
+        //console.log("clicked delete");
         event.preventDefault();
 
         var doDelete = true;
         if (confirm('Are you sure you want to delete your comment?')) {
             doDelete = true;
-            console.log("sure")
+            //console.log("sure")
         }
 
         $.ajax({

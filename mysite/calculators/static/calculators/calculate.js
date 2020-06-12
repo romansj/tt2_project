@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log('hello')
+    //console.log('hello')
 
     $('#reizinasana_call').click(function () {
         reizini();

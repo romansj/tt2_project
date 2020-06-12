@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log("ready!");
+    console.log("kaspready!");
     $('#button_copy').click(function () {
         clickedRecipeID = this.dataset.identifikators;
         console.log(clickedRecipeID);
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         let ajax_call = function (endpoint, request_parameters) {
 
-            console.log(request_parameters);
+            //console.log(request_parameters);
 
             $.getJSON(endpoint, request_parameters)
                 .done(response => {

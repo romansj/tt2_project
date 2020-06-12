@@ -1,5 +1,4 @@
 import json
-
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -117,7 +116,7 @@ def report(request, pk):
         response_data['author'] = request.user.username
         response_data['text'] = report_text
         response_data['postpk'] = pk
-        print(request.user.username)
+        # print(request.user.username)
         # šī daļa ir tur kur strādā liekot datu
         reporting = Recipe_report(reported_user=request.user, reported_post=Post.objects.get(id=pk),
                                   reported_text=report_text)
@@ -175,7 +174,7 @@ def rating_delete(request, pk, rpk):
 
         rating = Rating.objects.filter(id=rpk)
         if rating:
-            print('rating exists, deleting')
+            # print('rating exists, deleting')
             rating.delete()
             return redirect('recipes:post-detail', pk=pk)
             response = JsonResponse({"success": "Rating deleted."})
@@ -280,7 +279,7 @@ class CategoryDetailView(generic.DetailView):
 
 
 def copy_post(request, pkk):
-    print("esmu iekshaa def copy_post")
+    # print("esmu iekshaa def copy_post")
     old_item = get_object_or_404(Post, pk=pkk)
     new_item = get_object_or_404(Post, pk=pkk)
     new_item.pk = None
@@ -305,7 +304,7 @@ def hide_post(request, peekay):
     #     if self.request.user.is_superuser or self.request.user.profile.is_moderator:
     #         return True
     #     return False
-    print("esmu iekshaa def hide_post")
+    # print("esmu iekshaa def hide_post")
     hide_item = get_object_or_404(Post, pk=peekay)
     hide_item.is_hidden = True
     hide_item.save()
@@ -343,7 +342,7 @@ def Add_ingredient(request, pk):
 @user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
                   login_url='/users/login/')
 def unhide_post(request, peekay):
-    print("esmu iekshaa def hide_post")
+    # print("esmu iekshaa def hide_post")
     hide_item = get_object_or_404(Post, pk=peekay)
     hide_item.is_hidden = False
     hide_item.save()

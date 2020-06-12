@@ -21,7 +21,7 @@ def recipe_results(request):
     if url_parameter and not url_parameter_cat:
         recipes = Post.objects.filter(title__icontains=url_parameter)
     elif url_parameter_cat and not url_parameter:
-        print(url_parameter_cat, int(url_parameter_cat))
+        # print(url_parameter_cat, int(url_parameter_cat))
         recipes = Post.objects.filter(category_new_id=int(url_parameter_cat))
     elif url_parameter and url_parameter_cat:
         criterion1 = Q(title__icontains=url_parameter)
@@ -46,7 +46,7 @@ def recipe_results(request):
         )
 
         data_dict = {"html_from_view": html}
-        print(html)
+        #print(html)
 
         return JsonResponse(data=data_dict, safe=False)
 

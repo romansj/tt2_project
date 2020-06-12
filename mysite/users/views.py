@@ -1,6 +1,5 @@
 # Create your views here.
 import json
-
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import user_passes_test
@@ -40,7 +39,7 @@ def report_profile(request, pk):
         response_data['author'] = request.user.username
         response_data['text'] = report_text
         response_data['postpk'] = pk
-        print(request.user.username)
+        # print(request.user.username)
         # šī daļa ir tur kur strādā liekot datu
         reporting = User_report(reported_user=request.user, reported_text=report_text)
         reporting.save()
@@ -157,7 +156,7 @@ class ProfileView(generic.ListView):
         """
         Excludes any questions that aren't published yet.
         """
-        print(self.kwargs['pk'])
+        # print(self.kwargs['pk'])
         return Post.objects.filter(author_id=self.kwargs['pk'])
 
 
@@ -196,8 +195,8 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('users:results', args=(question.id,)))
 
 
-@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
-                  login_url='/users/login/')
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser), login_url='/users/login/')
+
 def user_promotion(request, pkkk):
     new_mod = get_object_or_404(Profile, id=pkkk)
     new_mod.is_moderator = True
@@ -205,8 +204,7 @@ def user_promotion(request, pkkk):
     return redirect('users:profile-view', pk=pkkk)
 
 
-@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
-                  login_url='/users/login/')
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser), login_url='/users/login/')
 def user_demotion(request, pkkk):
     new_mod = get_object_or_404(Profile, id=pkkk)
     new_mod.is_moderator = False
