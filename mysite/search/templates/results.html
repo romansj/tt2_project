@@ -6,35 +6,38 @@
 {% block title %}Search results - AmaChef{% endblock %}
 
 {% block content %}
-    <h1 class="title">Search results</h1>
+    <h1 class="title">Search</h1>
 
 
 
 
 
-    <div class="">
-
-        <input id="user-input" placeholder="Search">
-    </div>
 
 
-    <div class="dropdown">
-        <button onclick="myFunction()" class="button is-primary">Filter by category</button>
 
-        <div id="myDropdown" class="dropdown-content">
-            <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
 
-            {#            pirmais atver kategoriju#}
-            {#            otrais pievieno kategoriju pie selection#}
-            {% for category in categories %}
-                {#                    <a href="{% url 'recipes:category-detail' category.id %}">{{ category.title }}</a> #}
-                <a class="a_category" data-category-id="{{ category.id }}">{{ category.title }}</a>
-            {% endfor %}
+    <div class="level">
+        <div class="level-left">
+            <div class="dropdown">
+                <button id="search_filter_bttn" onclick="myFunction()" class="button is-primary">Filter</button>
+
+                <div id="myDropdown" class="dropdown-content">
+                    <input class="input is-rounded" type="text" placeholder="Choose category..." id="myInput" onkeyup="filterFunction()">
+                    {% for category in categories %}
+                        <a class="a_category" data-category-id="{{ category.id }}">{{ category.title }}</a>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
+
+        <input id="search_bar" class="input is-rounded" type="text" placeholder="Enter search term...">
+
     </div>
 
-    <br>
-    <br>
+
+
+
+
 
 
     <script>
@@ -64,7 +67,9 @@
 
     <div id="search_selected_categories"></div>
 
-    <div id="search_selected_ingredients"></div>
+
+
+    <div id="div_content_replace"></div>
 
 
     <div id="replaceable-content">

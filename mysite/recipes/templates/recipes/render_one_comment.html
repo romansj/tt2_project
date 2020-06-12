@@ -9,15 +9,12 @@
         <div class="media-content">
             <div class="content">
                 <p>
-                    Author: <strong>{{ rating.author }}</strong>
+                    <span class="material-icons">person_outline</span> <strong>{{ rating.author }}</strong>
                     <br>
-                    Rating: {{ rating.stars }}
+                    <span class="material-icons">star_border</span> {{ rating.stars }}
                     <br>
-                    Comment: {{ rating.comment }}
-
+                    {{ rating.comment }}
                 </p>
-
-
             </div>
 
             {% if rating.author.id == user.id %}

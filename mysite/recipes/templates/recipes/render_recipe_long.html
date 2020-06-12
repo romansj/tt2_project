@@ -19,47 +19,70 @@
 
 
         <p>{{ post.description }}</p>
-
+        <hr class="navbar-divider">
         <p class="subtitle is-5">Ingredients:</p>{% for ingredient in  post.ingredients.all %}
         <a href="{% url 'recipes:ingredient_detail' ingredient.id %}">{{ ingredient.title }}</a>
     {% endfor %}
-
+        <hr class="navbar-divider">
         <h3 class="subtitle">Directions:</h3>
         <p> {{ post.directions|safe }} </p>
         <p> the amount is {{ post.amount }} </p>
 
         <br>
+        <hr class="navbar-divider">
         <div class="level">
             <!-- Left side -->
             <div class="level-left">
 
-                <p class="level-item"><span class="material-icons">star_border</span>
+                <p class="level-item"><span class="mr-1	material-icons">star_border</span>
                     {% if post.average_rating %}
                         {{ post.average_rating }}
                     {% else %}
                         No ratings yet.
                     {% endif %}
                 </p>
-                <p class="level-item"><span class="material-icons">query_builder</span>{{ post.cooking_time }}</p>
+                <p class="level-item"><span class="mr-1	material-icons">query_builder</span>{{ post.cooking_time }}</p>
 
-                <a class="level-item" href='{% url 'users:profile-view' post.author.id %}'><span class="material-icons">person_outline</span>made by {{ post.author }}</a>
+                <div class="level-item">
+
+                    <p class=" un" onclick="location.href='{% url 'users:profile-view' post.author.id %}'"><span class="mr-1	 material-icons">person_outline</span>made
+                        by {{ post.author }}</p>
+                </div>
+
             </div>
         </div>
 
-        {% if post.author == user %}
-            <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
-            <a class="button is-warning" href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
-            <br><br>
-        {% endif %}
+        <div class="mb-5	">
+            {#            <div class="level-left">#}
+            {#                <div class="level-item">#}
+            {# Recipe edit / delete controls #}
+            {% if post.author == user %}
+                <a class="button" href="{% url 'recipes:post-update' post.id %}">Edit recipe</a>
+                <a class="button is-warning" href="{% url 'recipes:post-delete' post.id %}">Delete recipe</a>
 
+            {% endif %}
+            {#                </div>#}
+            {#                <div class="level-item">#}
+            {# Admin / mod controls #}
+            {% if user.is_authenticated and user.profile.is_moderator or user.is_superuser %}
+                {% if post.is_hidden %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_unhide' post.id %}" data-identifikators="{{ post.id }}">Unhide recipe</a>
+                {% else %}
+                    <a class="button is-danger" id="button_hide" href="{% url 'recipes:post_hide' post.id %}" data-identifikators="{{ post.id }}">Hide recipe</a>
+                {% endif %}
+            {% endif %}
+            {#                </div>#}
 
-
-        {% if user.is_authenticated and not post.author == user %}
-            <button class="button" id="button_copy" onclick="location.href='{% url 'recipes:post-copy' post.id %}'" data-identifikators="{{ post.id }}">Copy recipe</button>
-
-            <br><br>
-        {% endif %}
-
+            {#                <div class="level-item">#}
+            {# Copying recipe #}
+            {% if user.is_authenticated and not post.author == user %}
+                <button class="button" id="button_copy" onclick="location.href='{% url 'recipes:post-copy' post.id %}'" data-identifikators="{{ post.id }}">Copy recipe
+                </button>
+                <br><br>
+            {% endif %}
+            {#                </div>#}
+            {#            </div>#}
+        </div>
 
 
         <div class="box" style="background: hotpink">
@@ -80,8 +103,8 @@
 
 
             <div class="box" style="background: #3e8e41">
-                <div id="results"></div>
-                <ul id="talk">{% include 'recipes/ratings.html' %}</ul>
+
+                {% include 'recipes/ratings.html' %}
             </div>
 
 

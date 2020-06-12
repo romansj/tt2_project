@@ -1,0 +1,15 @@
+<div class="box click_box" onclick="location.href='{% url 'recipes:category-detail' category.id %}'">
+
+    <h3 class="title is-4">{{ category.title }}</h3>
+    {% if  category.description %}
+        <h4 class="subtitle is-5">{{ category.description }}</h4>
+    {% else %}
+        <h4 class="subtitle is-5">Description not provided</h4>
+    {% endif %}
+
+
+</div>
+
+
+
+

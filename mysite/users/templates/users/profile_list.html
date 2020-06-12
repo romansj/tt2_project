@@ -3,14 +3,24 @@
 
 
 {% block content %}
-{#    TODO this#}
-{#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
-{#        <div class="fieldWrapper">#}
-{#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
-{#        </div>#}
-{#        <input class="button" type="submit" value="Post report">#}
-{#    </form>#}
+    {#    TODO this#}
+    {#        <form id="report-profile-form" action="{% url 'users:report_profile' user.id %}" method="POST">{% csrf_token %}#}
+    {#        <div class="fieldWrapper">#}
+    {#            <input name="report_profile" id="report_message" placeholder="Reason of report"></input>#}
+    {#        </div>#}
+    {#        <input class="button" type="submit" value="Post report">#}
+    {#    </form>#}
+
+
+
+
     {% with posts|first as recepte %}
+
+        <h2 class="title">User profile</h2>
+        <span class="subtitle is-3">{{ recepte.author.username }}</span><br>
+
+
+        <span class="subtitle">Posted recipes</span><br><br>
 
         {% if recepte.author.profile.is_moderator %}
             <p>VERIFIED MODERATOR</p>
@@ -40,16 +50,6 @@
         {#        {% endif %}#}
     {% endwith %}
     {% for post in posts %}
-        <div class="post" style="border:solid">
-            <a class="post-title" href="{% url 'recipes:post-detail' post.id %}">{{ post.title }} </a>
-            <p> {{ post.description }} </p>
-            <!--<p> {{ post.ingredients }} </p>
-            <p> {{ post.directions }} </p>-->
-            <p> the amount is {{ post.amount }} </p>
-            <p> the category is {{ post.category_new }} </p>
-            <p> the cooking_time is {{ post.cooking_time }} </p>
-            <p> made by {{ post.author }}</p>
-        </div>
-        <br>
+        {% include 'recipes/render_recipe_short.html' %}
     {% endfor %}
 {% endblock %}

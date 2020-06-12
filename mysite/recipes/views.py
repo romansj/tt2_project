@@ -3,6 +3,8 @@ import json
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
@@ -21,6 +23,22 @@ class PostListView(generic.ListView):
     template_name = 'recipes/fresh.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
+
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+
+        top_posts = Post.objects.all().filter(is_hidden=False).order_by('rating__stars')
+        paginator = Paginator(top_posts, 2)  # Show 25 contacts per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context.update({
+            'page_obj': page_obj,
+            'top_posts': top_posts,
+            # 'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
+            'top_categories': Category.objects.all().annotate(num_submissions=Count('category_posts')).order_by('-num_submissions')[:7]
+        })
+        return context
 
     def get_queryset(self):
         return Post.objects.filter(is_hidden=False)
@@ -89,6 +107,9 @@ def post_rating(request, pk):
         response_data['author'] = rating.author.username
         response_data['stars'] = rating.stars
 
+        context = {"rating": rating, "post": Post.objects.get(id=pk)}
+        return render(request, "recipes/render_one_comment.html", context)
+
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"
@@ -109,13 +130,13 @@ def rating_delete(request, pk, rpk):
         if rating:
             print('rating exists, deleting')
             rating.delete()
-
+            return redirect('recipes:post-detail', pk=pk)
             response = JsonResponse({"success": "Rating deleted."})
             return response
 
     response = JsonResponse({"error": "Cannot delete recipe for some unknown reason"})
     response.status_code = 403  # To announce that the user isn't allowed to publish
-    return response
+    return redirect('recipes:post-detail', pk=pk)
 
 
 def rating_edit(request, pk):
@@ -232,6 +253,7 @@ def hide_post(request, peekay):
     hide_item.is_hidden = True
     hide_item.save()
     return redirect('recipes:post-detail', pk=hide_item.pk)
+
 
 def Add_ingredient(request, pk):
     if request.method == 'POST':

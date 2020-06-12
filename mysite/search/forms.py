@@ -36,7 +36,7 @@ class RatingForm(forms.ModelForm):
         fields = ['comment', 'stars']
         widgets = {
             'comment': forms.TextInput(attrs={
-                'id': 'ingredient-name-text',
+                'id': 'ingredient-name',
                 'required': True,
                 'placeholder': 'Say something...'
             }),

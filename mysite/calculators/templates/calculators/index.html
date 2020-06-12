@@ -3,28 +3,88 @@
 
 
 {% block content %}
-    <h1>Calculators</h1>
-    <h2> Cup to gram/milliliter converter </h2>
-    <select id="izvele">
-        <option value="flour">all purpose flour</option>
-        <option value="butter">butter</option>
-        <option value="/milk">milk</option>
-        <option value="/water">water</option>
-        <option value="Honey">honey</option>
-    </select>
-    <input type='integer' id="ievade" value="">
-    <button id="reizinasana_call" class="aprekinipoga"> Calculate</button>
-    <p id="Atbilde"></p>
 
-    <h2> gram/milliliter to cup converter </h2>
-    <select id="izvele2">
-        <option value="flour">all purpose flour</option>
-        <option value="butter">butter</option>
-        <option value="/milk">milk</option>
-        <option value="/water">water</option>
-        <option value="Honey">honey</option>
-    </select>
-    <input type='integer' id="ievade2" value="">
-    <button id="reizinasana_call2" class="aprekinipoga2"> Calculate</button>
-    <p id="Atbilde2"></p>
+    <h1 class="title">Calculators</h1>
+
+
+
+    <div class="columns">
+
+
+        <div class="column is-mobile">
+
+            <div class="box">
+                <h2 class="subtitle"> Cup to gram/milliliter converter </h2>
+
+                <div class="level ">
+
+
+                    <div class="level-item has-text-centered">
+
+                        <div class="select ">
+                            <select id="izvele">
+                                <option value="flour">all purpose flour</option>
+                                <option value="butter">butter</option>
+                                <option value="/milk">milk</option>
+                                <option value="/water">water</option>
+                                <option value="Honey">honey</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="level-item has-text-centered">
+                        <input class="input is-rounded" type='integer' id="ievade" placeholder="enter grams/mL..." value="">
+                    </div>
+
+                    <div class="level-item has-text-centered">
+                        <button id="reizinasana_call" class="aprekinipoga button is-rounded "> Calculate</button>
+                    </div>
+                </div>
+
+
+                <p id="Atbilde"></p>
+            </div>
+        </div>
+
+
+        <div class="column is-mobile">
+
+
+            <div class="box">
+
+
+                <h2 class="subtitle"> gram/milliliter to cup converter </h2>
+                <div class="level">
+
+                    <div class="level-item has-text-centered">
+
+                        <div class="select">
+                            <select class="select " id="izvele2">
+                                <option value="flour">all purpose flour</option>
+                                <option value="butter">butter</option>
+                                <option value="/milk">milk</option>
+                                <option value="/water">water</option>
+                                <option value="Honey">honey</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="level-item has-text-centered">
+                        <input class="input is-rounded" type='integer' id="ievade2" placeholder="enter cups..." value="">
+                    </div>
+
+                    <div class="level-item has-text-centered">
+                        <button id="reizinasana_call2" class="aprekinipoga2 button is-rounded"> Calculate</button>
+                    </div>
+                </div>
+                <p id="Atbilde2"></p>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
 {% endblock %}

@@ -46,12 +46,8 @@
 </head>
 <body>
 <section class="section " id="wrapper">
-    <div class="container">
-        <div class="navbar-center">
-            <input id="search_bar" class="input is-rounded" type="text" placeholder="This doesn't work yet">
 
-        </div>
-        <br>
+    <div class="container">
 
 
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -115,6 +111,8 @@
             </div>
 
         </nav>
+        <br>
+
 
         {#        <ul class="menu align-center">#}
         {#            <li><a href="{% url 'results' %}">Search</a></li>#}
@@ -138,22 +136,7 @@
         {#        </ul>#}
 
 
-        <div id="my_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Modal title</p>
-                    <button class="delete" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <div id="div_content_replace"></div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Save changes</button>
-                    <button id="close_button_modal" class="button">Cancel</button>
-                </footer>
-            </div>
-        </div>
+        {#        {% include 'search_modal.html' %}#}
 
         {% block content %}{% endblock %}
 

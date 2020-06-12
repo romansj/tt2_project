@@ -1,17 +1,16 @@
 
 
 {% extends "amachef/base_generic.html" %}
-
+{% block title %}Category detail{% endblock %}
 {% block content %}
-    <button class="button" onclick="location.href='{% url 'recipes:categories' %}'">Back to categories</button>
+    <span onclick="location.href='{% url 'recipes:categories' %}'" class="tag  is-light is-medium">
+        <a class="is-link">Categories</a></span>
+    <h3 class="title">{{ category.title }}</h3>
+    <h4 class="subtitle">{{ category.description }}</h4>
 
-    <div class="post" style="border:solid">
-        <p> {{ category.title }} </p>
-        <p> {{ category.description }} </p></div>
+    <br>
 
-
-
-    {% for post in category.post_set.all %}
+    {% for post in category.category_posts.all %}
         {% include 'recipes/render_recipe_short.html' %}
     {% endfor %}
 

@@ -11,16 +11,23 @@
     <br>
 {% endif %}
 
+<div id="results">
 
-{% if post.rating_set.all %}
-    {% for rating in post.rating_set.all %}
-        {% include 'recipes/render_one_comment.html' %}
-    {% endfor %}
-{% else %}
+    {% if post.rating_set.all %}
+        {% for rating in post.rating_set.all %}
+            {% include 'recipes/render_one_comment.html' %}
+        {% endfor %}
+    {% else %}
 
-    <br>
-    <article class="message">
-        <div class="message-body">No ratings yet.</div>
-    </article>
+        <div id="no_ratings_div">
+            <article class="message">
+                <div class="message-body">No ratings yet.</div>
+            </article>
 
-{% endif %}
+        </div>
+
+
+
+    {% endif %}
+</div>
+
