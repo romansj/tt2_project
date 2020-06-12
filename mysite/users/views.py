@@ -3,6 +3,7 @@ import json
 
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -195,6 +196,8 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('users:results', args=(question.id,)))
 
 
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
+                  login_url='/users/login/')
 def user_promotion(request, pkkk):
     new_mod = get_object_or_404(Profile, id=pkkk)
     new_mod.is_moderator = True
@@ -202,6 +205,8 @@ def user_promotion(request, pkkk):
     return redirect('users:profile-view', pk=pkkk)
 
 
+@user_passes_test(lambda user: user.is_authenticated and (user.profile.is_moderator or user.is_superuser),
+                  login_url='/users/login/')
 def user_demotion(request, pkkk):
     new_mod = get_object_or_404(Profile, id=pkkk)
     new_mod.is_moderator = False

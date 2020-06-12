@@ -2,7 +2,7 @@
 {% block content %}
     <section>
         <div class="container">
-
+            {% if user.is_superuser or user.profile.is_moderator %}
             <h3 class="title">Hidden Recipes</h3>
 
 
@@ -20,7 +20,9 @@
 
 
             {% include 'recipes/pagination.html' %}
-
+            {% else %}
+            <h1>YOU ARE NOT AUTHORIZED TO VIEW THIS PAGE!</h1>
+            {% endif %}
         </div>
     </section>
 
